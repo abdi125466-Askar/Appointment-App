@@ -1,38 +1,54 @@
+
+
 // import ProtectedRoute from "./ProtectedRoute";
 
-// // Pages
+// // ================= USER PAGES =================
 // import Login from "../pages/user/Login";
 // import Profile from "../pages/user/Profile";
 // import Users from "../pages/user/Users";
 
-// // ✅ customer pages (hubi in folder-ka run ahaantiis la yiraahdo "customer")
+// // ================= CUSTOMER PAGES =================
 // import Customers from "../pages/customer/Customers";
 // import CreateAppointment from "../pages/customer/CreateAppointment";
 // import PendingAppointments from "../pages/customer/PendingAppointments";
 // import ApprovedAppointments from "../pages/customer/ApprovedAppointments";
 // import CompletedAppointments from "../pages/customer/CompletedAppointments";
 
-// // ✅ services pages (hubi folder: "Service" vs "service")
+// // ================= SERVICE PAGES =================
 // import Services from "../pages/Service/Services";
 
-// // ✅ employee dashboard (hubi folder: "Employee" vs "employee")
+// // ================= EMPLOYEE =================
 // import EmployeeDashboard from "../pages/Employee/EmployeeDashboard";
 
-// // Layouts
-// import DashboardLayout from "../layouts/DashboardLayout";
-
-// // Dashboard page
-// import Dashboard from "../Components/Dashboard";
+// // ================= PUBLIC =================
 // import PublicAppointmentPage from "../pages/Public/PublicAppointmentPage";
 
-// const systemRoutes = [
-//   // ✅ PUBLIC
-//   { path: "/", element: <Login /> },
+// // ================= LAYOUT =================
+// import DashboardLayout from "../layouts/DashboardLayout";
+// import Dashboard from "../Components/Dashboard";
 
-//   // ✅ PROTECTED
+// const systemRoutes = [
+//   /* =====================================================
+//      🔓 PUBLIC ROUTES
+//   ===================================================== */
+//   {
+//     path: "/",
+//     element: <PublicAppointmentPage />, // ✅ FIRST PAGE
+//   },
+
+//   {
+//     path: "/login",
+//     element: <Login />, // ✅ LOGIN PAGE
+//   },
+
+//   /* =====================================================
+//      🔐 PROTECTED ROUTES
+//   ===================================================== */
 //   {
 //     element: (
-//       <ProtectedRoute allowedRoles={["SUPERADMIN", "ADMIN", "STAFF", "USER"]} />
+//       <ProtectedRoute
+//         allowedRoles={["SUPERADMIN", "ADMIN", "STAFF", "USER"]}
+//       />
 //     ),
 //     children: [
 //       {
@@ -54,7 +70,6 @@
 //           { path: "pending-appointments", element: <PendingAppointments /> },
 //           { path: "approved-appointments", element: <ApprovedAppointments /> },
 //           { path: "completed-appointments", element: <CompletedAppointments /> },
-//           { path: "public-appointment", element: <PublicAppointmentPage/> },
 
 //           // ✅ STAFF
 //           { path: "employee", element: <EmployeeDashboard /> },
@@ -80,14 +95,21 @@ import PendingAppointments from "../pages/customer/PendingAppointments";
 import ApprovedAppointments from "../pages/customer/ApprovedAppointments";
 import CompletedAppointments from "../pages/customer/CompletedAppointments";
 
-// ================= SERVICE PAGES =================
+// ================= SERVICE PAGES (DASHBOARD) =================
 import Services from "../pages/Service/Services";
 
 // ================= EMPLOYEE =================
 import EmployeeDashboard from "../pages/Employee/EmployeeDashboard";
 
-// ================= PUBLIC =================
+// ================= PUBLIC (EXISTING) =================
 import PublicAppointmentPage from "../pages/Public/PublicAppointmentPage";
+
+// ✅ NEW PUBLIC PAGES + LAYOUT
+import PublicLayout from "../layouts/PublicLayout";
+import LandingPage from "../pages/Public/LandingPage";
+import PublicServicesPage from "../pages/Public/PublicServicesPage";
+import PublicTrackPage from "../pages/Public/PublicTrackPage";
+import AboutPage from "../pages/Public/AboutPage";
 
 // ================= LAYOUT =================
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -98,13 +120,21 @@ const systemRoutes = [
      🔓 PUBLIC ROUTES
   ===================================================== */
   {
-    path: "/",
-    element: <PublicAppointmentPage />, // ✅ FIRST PAGE
+    element: <PublicLayout />,
+    children: [
+      { index: true, element: <LandingPage /> }, // ✅ NEW LANDING "/"
+      { path: "/services", element: <PublicServicesPage /> },
+      { path: "/track", element: <PublicTrackPage /> },
+      { path: "/about", element: <AboutPage /> },
+
+      // ✅ OLD PublicAppointmentPage moved here
+      { path: "/book", element: <PublicAppointmentPage /> },
+    ],
   },
 
   {
     path: "/login",
-    element: <Login />, // ✅ LOGIN PAGE
+    element: <Login />,
   },
 
   /* =====================================================
@@ -112,9 +142,7 @@ const systemRoutes = [
   ===================================================== */
   {
     element: (
-      <ProtectedRoute
-        allowedRoles={["SUPERADMIN", "ADMIN", "STAFF", "USER"]}
-      />
+      <ProtectedRoute allowedRoles={["SUPERADMIN", "ADMIN", "STAFF", "USER"]} />
     ),
     children: [
       {
@@ -146,4 +174,3 @@ const systemRoutes = [
 ];
 
 export default systemRoutes;
-
