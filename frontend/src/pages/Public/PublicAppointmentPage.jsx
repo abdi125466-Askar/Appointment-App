@@ -37,9 +37,7 @@ export default function PublicAppointmentPage() {
   const [selectedService, setSelectedService] = useState(null);
   const [date, setDate] = useState("");
   const [customer, setCustomer] = useState({ fullName: "", phone: "", email: "", gender: "" });
-const [file, setFile] = useState(null);
-const [fileError, setFileError] = useState("");
-
+  const [file, setFile] = useState(null);
   const [searchId, setSearchId] = useState("");
   const [dateError, setDateError] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
@@ -64,58 +62,20 @@ const [fileError, setFileError] = useState("");
     }
   };
 
-  const handleFileChange = (e) => {
-  const selectedFile = e.target.files[0];
-
-  if (!selectedFile) return;
-
-  if (selectedFile.type !== "application/pdf") {
-    setFileError("Only PDF files are allowed.");
-    setFile(null);
-    return;
-  }
-
-  if (selectedFile.size > 10 * 1024 * 1024) {
-    setFileError("File size must be less than 10MB.");
-    setFile(null);
-    return;
-  }
-
-  setFileError("");
-  setFile(selectedFile);
-};
-
-
   const handleCheckAvailability = () => {
     if (!selectedService || !date) return;
     dispatch(checkServiceAvailability({ serviceId: selectedService._id, date }));
     setCurrentStep(3);
   };
 
-  // const handleCreateAppointment = () => {
-  //   const formData = new FormData();
-  //   Object.keys(customer).forEach(key => formData.append(key, customer[key]));
-  //   formData.append("serviceId", selectedService._id);
-  //   formData.append("appointmentDate", date);
-  //   if (file) formData.append("file", file);
-  //   dispatch(createPublicAppointment(formData));
-  // };
-
-const handleCreateAppointment = () => {
-  if (!file) {
-    setFileError("Document upload is required.");
-    return;
-  }
-
-  const formData = new FormData();
-  Object.keys(customer).forEach(key => formData.append(key, customer[key]));
-  formData.append("serviceId", selectedService._id);
-  formData.append("appointmentDate", date);
-  formData.append("file", file);
-
-  dispatch(createPublicAppointment(formData));
-};
-
+  const handleCreateAppointment = () => {
+    const formData = new FormData();
+    Object.keys(customer).forEach(key => formData.append(key, customer[key]));
+    formData.append("serviceId", selectedService._id);
+    formData.append("appointmentDate", date);
+    if (file) formData.append("file", file);
+    dispatch(createPublicAppointment(formData));
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -382,25 +342,16 @@ const handleCreateAppointment = () => {
                   
                   {!file ? (
                     <div className="relative border-3 border-dashed border-slate-200 rounded-2xl p-8 flex flex-col items-center justify-center hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer group">
-                      {/* <input 
+                      <input 
                         type="file" 
                         accept="application/pdf" 
                         onChange={(e) => setFile(e.target.files[0])} 
                         className="absolute inset-0 opacity-0 cursor-pointer"
-                      /> */}
-                      <input 
-  type="file" 
-  accept="application/pdf"
-  required
-  onChange={handleFileChange}
-  className="absolute inset-0 opacity-0 cursor-pointer"
-/>
-
+                      />
                       <Upload className="text-slate-300 group-hover:text-blue-500 mb-3 transition-colors" size={32} />
                       <p className="text-sm font-bold text-slate-600 mb-1">Drop your PDF here or click to browse</p>
                       <p className="text-xs text-slate-400">Maximum file size: 10MB</p>
                     </div>
-                    
                   ) : (
                     <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
                       <div className="flex items-center gap-3 truncate">
