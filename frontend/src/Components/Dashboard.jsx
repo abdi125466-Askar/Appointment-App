@@ -31,6 +31,10 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   LabelList,
+  /* ADDED NEW COMPONENTS BELOW */
+  AreaChart,
+  Area,
+  Line,
 } from "recharts";
 
 import * as XLSX from "xlsx";
@@ -147,7 +151,6 @@ export default function AppointmentDashboard() {
     ) : null;
   };
 
-  // ✅ FIXED: use appointmentDate, fallback to createdAt
   const weeklyVolumeData = useMemo(() => {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const counts = [0, 0, 0, 0, 0, 0, 0];
@@ -165,6 +168,36 @@ export default function AppointmentDashboard() {
       name: day,
       appointments: counts[index],
     }));
+  }, [lastActivities]);
+
+  /* ===== ADDED: SERVICE PERFORMANCE LOGIC ===== */
+  const serviceDistributionData = useMemo(() => {
+    const activities = Array.isArray(lastActivities) ? lastActivities : [];
+    const serviceMap = {};
+    activities.forEach((app) => {
+      const serviceName = app.serviceId?.name || "Miscellaneous";
+      serviceMap[serviceName] = (serviceMap[serviceName] || 0) + 1;
+    });
+    return Object.entries(serviceMap)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5); 
+  }, [lastActivities]);
+
+  const serviceTrendData = useMemo(() => {
+    const activities = Array.isArray(lastActivities) ? lastActivities : [];
+    const dailyMap = {};
+    activities.forEach((app) => {
+      const raw = app.appointmentDate || app.createdAt;
+      if (raw) {
+        const dateKey = new Date(raw).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+        dailyMap[dateKey] = (dailyMap[dateKey] || 0) + 1;
+      }
+    });
+    return Object.entries(dailyMap)
+      .map(([date, value]) => ({ date, value }))
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(-7);
   }, [lastActivities]);
 
   /* ===== EXPORTS ===== */
@@ -558,6 +591,50 @@ export default function AppointmentDashboard() {
                       fontSize={12}
                       fontWeight={700}
                     />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
+        {/* ADDED: NEW SERVICE PERFORMANCE ROW */}
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Trend Line Chart */}
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 className="text-lg font-black tracking-tight mb-1 text-slate-800">Booking Velocity</h3>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-6">Service Demand Trend</p>
+            <div className="h-[250px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={serviceTrendData}>
+                  <defs>
+                    <linearGradient id="colorTrend" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.1}/>
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                  <Tooltip contentStyle={{ borderRadius: "16px", border: "none", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }} />
+                  <Area type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} fill="url(#colorTrend)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Most Used Services Bar Chart */}
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 className="text-lg font-black tracking-tight mb-1 text-slate-800">Most Used Services</h3>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-6">Top Performers</p>
+            <div className="h-[250px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={serviceDistributionData} layout="vertical" margin={{ left: 30 }}>
+                  <XAxis type="number" hide />
+                  <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: "#475569", fontSize: 11, fontWeight: 700 }} width={100} />
+                  <Tooltip cursor={{ fill: "#f8fafc" }} />
+                  <Bar dataKey="count" fill="#10b981" radius={[0, 8, 8, 0]} barSize={20}>
+                    <LabelList dataKey="count" position="right" style={{ fill: "#10b981", fontWeight: "bold", fontSize: 12 }} />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
