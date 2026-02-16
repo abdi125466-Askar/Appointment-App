@@ -25,7 +25,7 @@ export const fetchMe = createAsyncThunk(
   "auth/fetchMe",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get("/users/me");
+      const res = await api.get("/api/users/me");
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Session expired");
