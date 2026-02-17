@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import {
   UserPlus,
   RefreshCw,
@@ -26,6 +27,9 @@ export default function Users() {
   const dispatch = useDispatch();
   const { list, loading, registering } = useSelector((s) => s.users);
 
+  const [params] = useSearchParams();
+  const search = (params.get("search") || "").trim();
+
   const [editing, setEditing] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [showRegister, setShowRegister] = useState(false);
@@ -39,13 +43,15 @@ export default function Users() {
     status: "PENDING",
   });
 
+  // ✅ Fetch users whenever search changes (from Header)
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    dispatch(fetchUsers({ search }));
+  }, [dispatch, search]);
 
   const statusBadge = useMemo(
     () => ({
-      APPROVED: "text-emerald-700 bg-emerald-50 border-emerald-200 ring-emerald-100",
+      APPROVED:
+        "text-emerald-700 bg-emerald-50 border-emerald-200 ring-emerald-100",
       PENDING: "text-amber-700 bg-amber-50 border-amber-200 ring-amber-100",
       REJECTED: "text-rose-700 bg-rose-50 border-rose-200 ring-rose-100",
       DISABLED: "text-slate-500 bg-slate-50 border-slate-200 ring-slate-100",
@@ -104,8 +110,8 @@ export default function Users() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <div className="relative">
-            <div className="absolute inset-0 bg-indigo-500/20 blur-xl rounded-full"></div>
-            <LoaderIcon className="relative w-12 h-12 text-indigo-600 animate-spin" />
+          <div className="absolute inset-0 bg-indigo-500/20 blur-xl rounded-full"></div>
+          <LoaderIcon className="relative w-12 h-12 text-indigo-600 animate-spin" />
         </div>
         <p className="mt-6 text-sm font-medium text-gray-400 uppercase tracking-[0.2em] animate-pulse">
           Syncing User Data...
@@ -115,7 +121,6 @@ export default function Users() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-in fade-in duration-500">
-      
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm shadow-gray-200/50">
         <div className="flex items-center gap-5">
@@ -129,6 +134,13 @@ export default function Users() {
             <p className="text-gray-500 font-medium text-sm mt-1">
               Configure team roles, system permissions, and account status.
             </p>
+
+            {/* ✅ nice small text showing active search */}
+            {search && (
+              <p className="mt-2 text-xs font-bold text-indigo-600">
+                Searching: <span className="text-gray-700">{search}</span>
+              </p>
+            )}
           </div>
         </div>
 
@@ -140,7 +152,7 @@ export default function Users() {
             <UserPlus size={18} /> Register User
           </button>
           <button
-            onClick={() => dispatch(fetchUsers())}
+            onClick={() => dispatch(fetchUsers({ search }))}
             className="p-3.5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 text-gray-600 transition-all hover:rotate-180 duration-700"
             title="Refresh Users"
           >
@@ -162,7 +174,7 @@ export default function Users() {
                 <Shield size={10} className="text-gray-400" />
                 {u.role}
               </span>
-              
+
               <span
                 className={`px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ring-1 ring-inset ${
                   statusBadge[u.status] || statusBadge.DISABLED
@@ -180,11 +192,11 @@ export default function Users() {
                   {u.fullName?.charAt(0)}
                 </div>
               </div>
-              
+
               <h3 className="text-xl font-bold text-gray-900 tracking-tight">
                 {u.fullName}
               </h3>
-              
+
               <div className="mt-3 flex items-center gap-2 text-sm text-gray-500 font-medium bg-gray-50 px-4 py-1.5 rounded-full border border-gray-100 group-hover:bg-indigo-50/50 group-hover:border-indigo-100 transition-colors">
                 <Mail size={14} className="text-gray-300 group-hover:text-indigo-400" />
                 {u.email}
@@ -197,8 +209,10 @@ export default function Users() {
                 onClick={() => openEdit(u)}
                 className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
               >
-                <Edit size={16} /> 
-                <span className="text-[10px] font-bold uppercase tracking-tighter">Edit</span>
+                <Edit size={16} />
+                <span className="text-[10px] font-bold uppercase tracking-tighter">
+                  Edit
+                </span>
               </button>
 
               <button
@@ -211,13 +225,17 @@ export default function Users() {
               >
                 {u.status === "APPROVED" ? (
                   <>
-                    <Slash size={16} /> 
-                    <span className="text-[10px] font-bold uppercase tracking-tighter">Suspend</span>
+                    <Slash size={16} />
+                    <span className="text-[10px] font-bold uppercase tracking-tighter">
+                      Suspend
+                    </span>
                   </>
                 ) : (
                   <>
-                    <CheckCircle size={16} /> 
-                    <span className="text-[10px] font-bold uppercase tracking-tighter">Approve</span>
+                    <CheckCircle size={16} />
+                    <span className="text-[10px] font-bold uppercase tracking-tighter">
+                      Approve
+                    </span>
                   </>
                 )}
               </button>
@@ -226,8 +244,10 @@ export default function Users() {
                 onClick={() => setConfirmDelete(u)}
                 className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition-all"
               >
-                <Trash2 size={16} /> 
-                <span className="text-[10px] font-bold uppercase tracking-tighter">Delete</span>
+                <Trash2 size={16} />
+                <span className="text-[10px] font-bold uppercase tracking-tighter">
+                  Delete
+                </span>
               </button>
             </div>
           </div>
@@ -250,7 +270,9 @@ export default function Users() {
                 <h3 className="text-2xl font-bold text-gray-900 tracking-tight">
                   {editing ? "Update User" : "Add Team Member"}
                 </h3>
-                <p className="text-gray-400 text-sm font-medium">Please fill in the account details below.</p>
+                <p className="text-gray-400 text-sm font-medium">
+                  Please fill in the account details below.
+                </p>
               </div>
               <button
                 type="button"
@@ -270,7 +292,9 @@ export default function Users() {
                   placeholder="e.g. John Doe"
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all font-medium text-gray-900"
                   value={form.fullName}
-                  onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, fullName: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -298,7 +322,9 @@ export default function Users() {
                     placeholder="••••••••"
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all font-medium text-gray-900"
                     value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, password: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -312,7 +338,9 @@ export default function Users() {
                   <select
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 outline-none font-bold text-gray-900 cursor-pointer focus:bg-white transition-all appearance-none"
                     value={form.role}
-                    onChange={(e) => setForm({ ...form, role: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, role: e.target.value })
+                    }
                   >
                     <option value="USER">USER</option>
                     <option value="ADMIN">ADMIN</option>
@@ -326,7 +354,9 @@ export default function Users() {
                   <select
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 outline-none font-bold text-gray-900 cursor-pointer focus:bg-white transition-all appearance-none"
                     value={form.status}
-                    onChange={(e) => setForm({ ...form, status: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, status: e.target.value })
+                    }
                   >
                     <option value="PENDING">PENDING</option>
                     <option value="APPROVED">APPROVED</option>
@@ -347,7 +377,11 @@ export default function Users() {
                 disabled={registering}
                 className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all disabled:opacity-50"
               >
-                {editing ? "Save Changes" : registering ? "Processing..." : "Create Account"}
+                {editing
+                  ? "Save Changes"
+                  : registering
+                  ? "Processing..."
+                  : "Create Account"}
               </button>
             </div>
           </form>
@@ -369,7 +403,11 @@ export default function Users() {
               Delete Account?
             </h3>
             <p className="text-gray-500 text-sm font-medium mb-10 leading-relaxed">
-              You are about to permanently remove <span className="text-gray-900 font-bold underline decoration-rose-200">{confirmDelete.fullName}</span>. This action is irreversible.
+              You are about to permanently remove{" "}
+              <span className="text-gray-900 font-bold underline decoration-rose-200">
+                {confirmDelete.fullName}
+              </span>
+              . This action is irreversible.
             </p>
             <div className="flex flex-col gap-3">
               <button
@@ -389,30 +427,5 @@ export default function Users() {
         </div>
       )}
     </div>
-  );
-}
-
-function Loader2({ className }) {
-  return (
-    <svg
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      ></circle>
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      ></path>
-    </svg>
   );
 }

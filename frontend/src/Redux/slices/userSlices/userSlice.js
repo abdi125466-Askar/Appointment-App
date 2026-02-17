@@ -1,12 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../../utils/axios";
 
-// ================= FETCH USERS =================
+// ================= FETCH USERS (supports search) =================
 export const fetchUsers = createAsyncThunk(
   "users/fetchAll",
-  async (_, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
-      const res = await api.get("/users");
+      const search = payload?.search ? String(payload.search).trim() : "";
+      const url = search
+        ? `/users?search=${encodeURIComponent(search)}`
+        : "/users";
+
+      const res = await api.get(url);
+
+      // backend response: { success:true, data:[...] }
       return res.data.data;
     } catch (err) {
       return rejectWithValue(
@@ -66,7 +73,6 @@ export const deleteUserPermanent = createAsyncThunk(
   "users/deletePermanent",
   async (id, { rejectWithValue }) => {
     try {
-      // ✅ FIXED: now matches backend: /api/users/permanent/:id
       await api.delete(`/users/permanent/${id}`);
       return id;
     } catch (err) {

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Menu,
   Search,
@@ -27,9 +29,40 @@ export default function Header({
   goProfile,
   handleLogout,
 }) {
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+
+  const isUsersPage =
+    location?.pathname === "/users" || location?.pathname?.includes("/users");
+
+  // controlled search state
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // sync input with URL (?search=...)
+  useEffect(() => {
+    if (!isUsersPage) return;
+    const q = params.get("search") || "";
+    setSearchTerm(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUsersPage, location?.search]);
+
+  // debounce URL update (professional: prevents too many updates)
+  useEffect(() => {
+    if (!isUsersPage) return;
+
+    const t = setTimeout(() => {
+      const next = searchTerm.trim();
+      const url = next ? `/users?search=${encodeURIComponent(next)}` : `/users`;
+      navigate(url, { replace: true });
+    }, 300);
+
+    return () => clearTimeout(t);
+  }, [searchTerm, isUsersPage, navigate]);
+
+  const clearSearch = () => setSearchTerm("");
+
   return (
     <header className="h-16 md:h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-20 flex items-center justify-between px-4 md:px-8 transition-all duration-300">
-      
       {/* LEFT: Mobile Menu & Breadcrumb/Title */}
       <div className="flex items-center gap-4">
         <button
@@ -41,9 +74,8 @@ export default function Header({
 
         <div>
           <h2 className="text-xl font-black text-slate-800 capitalize tracking-tight">
-            {location.pathname.split("/").pop()?.replace("-", " ")}
+            {location?.pathname?.split("/").pop()?.replace("-", " ")}
           </h2>
-          {/* Optional Breadcrumb detail */}
           <p className="hidden md:block text-xs font-medium text-slate-400">
             Overview
           </p>
@@ -52,14 +84,32 @@ export default function Header({
 
       {/* RIGHT: Actions */}
       <div className="flex items-center gap-3 md:gap-6">
-        
-        {/* Search Bar */}
-        <div className="hidden sm:flex items-center bg-slate-100/50 border border-slate-200 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all w-64">
+        {/* ✅ Search Bar (works on /users) */}
+        <div className="hidden sm:flex items-center bg-slate-100/50 border border-slate-200 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all w-72">
           <Search size={18} className="text-slate-400" />
+
           <input
-            placeholder="Type to search..."
-            className="bg-transparent border-none text-sm ml-2 w-full outline-none text-slate-700 placeholder:text-slate-400 font-medium"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            disabled={!isUsersPage}
+            placeholder={
+              isUsersPage
+                ? "Search users (name/email)..."
+                : "Open Users page to search"
+            }
+            className="bg-transparent border-none text-sm ml-2 w-full outline-none text-slate-700 placeholder:text-slate-400 font-medium disabled:opacity-60"
           />
+
+          {isUsersPage && searchTerm && (
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="ml-2 p-1 rounded-full hover:bg-slate-200/60 text-slate-500"
+              title="Clear"
+            >
+              <X size={16} />
+            </button>
+          )}
         </div>
 
         {/* NOTIFICATIONS */}
@@ -68,8 +118,8 @@ export default function Header({
             <button
               onClick={() => setNotifOpen((s) => !s)}
               className={`relative p-2.5 rounded-full transition-all duration-200 ${
-                notifOpen 
-                  ? "bg-blue-50 text-blue-600" 
+                notifOpen
+                  ? "bg-blue-50 text-blue-600"
                   : "text-slate-400 hover:text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -133,12 +183,15 @@ export default function Header({
         )}
 
         {/* PROFILE */}
-        <div className="relative pl-3 md:pl-6 md:border-l border-slate-200" ref={profileRef}>
+        <div
+          className="relative pl-3 md:pl-6 md:border-l border-slate-200"
+          ref={profileRef}
+        >
           <button
             type="button"
             onClick={() => setProfileOpen((s) => !s)}
             className={`flex items-center gap-3 p-1 rounded-xl transition-all duration-200 ${
-                profileOpen ? "bg-slate-100" : "hover:bg-slate-50"
+              profileOpen ? "bg-slate-100" : "hover:bg-slate-50"
             }`}
           >
             <div className="text-right hidden sm:block">
@@ -164,31 +217,35 @@ export default function Header({
                 <span>{initials}</span>
               )}
             </div>
-            
+
             <ChevronDown size={14} className="text-slate-400 hidden sm:block" />
           </button>
 
           {profileOpen && (
             <div className="absolute right-0 mt-3 w-60 bg-white border border-slate-200/60 shadow-2xl shadow-slate-200/50 rounded-2xl overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
-                <div className="px-4 py-4 bg-slate-50/50 border-b border-slate-100">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Signed in as</p>
-                    <p className="text-sm font-black text-slate-800 truncate">{user.email || displayName}</p>
-                </div>
-              
+              <div className="px-4 py-4 bg-slate-50/50 border-b border-slate-100">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Signed in as
+                </p>
+                <p className="text-sm font-black text-slate-800 truncate">
+                  {user.email || displayName}
+                </p>
+              </div>
+
               <div className="p-1">
                 <button
-                    onClick={goProfile}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
+                  onClick={goProfile}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                 >
-                    <User2 size={18} />
-                    My Profile
+                  <User2 size={18} />
+                  My Profile
                 </button>
                 <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
                 >
-                    <LogOut size={18} />
-                    Sign Out
+                  <LogOut size={18} />
+                  Sign Out
                 </button>
               </div>
             </div>
