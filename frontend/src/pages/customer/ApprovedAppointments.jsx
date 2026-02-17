@@ -291,7 +291,7 @@ const openPdf = (appointment) => {
 
   const url =
     doc.url ||
-    `${import.meta.env.VITE_API_URL || "http://localhost:4000"}/api/uploads/appointments/${doc.filename}`;
+    `${import.meta.env.VITE_API_URL || "http://localhost:4000"}/uploads/appointments/${doc.filename}`;
 
   window.open(url, "_blank", "noopener,noreferrer");
 };
