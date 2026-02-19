@@ -22,7 +22,7 @@ export default function PublicTrackPage() {
     // ✅ IMPORTANT: This matches your backend route:
     // router.get("/appointments/:appointmentId/status", getMyAppointmentStatus)
     // Usually mounted as /api/public in server.js
-    const res = await api.get(`/api/public/appointments/${id}/status`);
+    const res = await api.get(`/public/appointments/${id}/status`);
     return res.data;
   }
 
