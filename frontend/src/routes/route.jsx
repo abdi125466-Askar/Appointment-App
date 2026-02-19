@@ -1,5 +1,4 @@
-// export default systemRoutes;
-
+import React from "react";
 import ProtectedRoute from "./ProtectedRoute";
 
 // ================= USER PAGES =================
@@ -20,17 +19,13 @@ import Services from "../pages/Service/Services";
 // ================= EMPLOYEE =================
 import EmployeeDashboard from "../pages/Employee/EmployeeDashboard";
 
-// ================= PUBLIC (EXISTING) =================
+// ================= PUBLIC =================
 import PublicAppointmentPage from "../pages/Public/PublicAppointmentPage";
-
-// ✅ PUBLIC LAYOUT + PAGES
 import PublicLayout from "../layouts/PublicLayout";
 import LandingPage from "../pages/Public/LandingPage";
 import PublicServicesPage from "../pages/Public/PublicServicesPage";
 import PublicTrackPage from "../pages/Public/PublicTrackPage";
 import AboutPage from "../pages/Public/AboutPage";
-
-// ✅ NEW PAGES (Privacy / Terms / Support)
 import PrivacyPage from "../pages/Public/PrivacyPage";
 import TermsPage from "../pages/Public/TermsPage";
 import SupportPage from "../pages/Public/SupportPage";
@@ -51,21 +46,18 @@ const systemRoutes = [
       { path: "/track", element: <PublicTrackPage /> },
       { path: "/about", element: <AboutPage /> },
 
-      // ✅ Footer pages
+      // Footer pages
       { path: "/privacy", element: <PrivacyPage /> },
       { path: "/terms", element: <TermsPage /> },
       { path: "/support", element: <SupportPage /> },
 
-      // ✅ Booking page
+      // Booking
       { path: "/book", element: <PublicAppointmentPage /> },
     ],
   },
 
-  // ✅ Login route
-  {
-    path: "/login",
-    element: <Login />,
-  },
+  // Login
+  { path: "/login", element: <Login /> },
 
   /* =====================================================
      🔐 PROTECTED ROUTES
@@ -81,21 +73,21 @@ const systemRoutes = [
         children: [
           { index: true, element: <Dashboard /> },
 
-          // ✅ USER
+          // USER
           { path: "profile", element: <Profile /> },
           { path: "users", element: <Users /> },
 
-          // ✅ MANAGEMENT
+          // MANAGEMENT
           { path: "customers", element: <Customers /> },
           { path: "services", element: <Services /> },
 
-          // ✅ APPOINTMENTS
+          // APPOINTMENTS
           { path: "create-appointment", element: <CreateAppointment /> },
           { path: "pending-appointments", element: <PendingAppointments /> },
           { path: "approved-appointments", element: <ApprovedAppointments /> },
           { path: "completed-appointments", element: <CompletedAppointments /> },
 
-          // ✅ STAFF
+          // STAFF
           { path: "employee", element: <EmployeeDashboard /> },
         ],
       },
@@ -103,4 +95,4 @@ const systemRoutes = [
   },
 ];
 
-export default systemRoutes;
+export default systemRoutes; // ✅ THIS LINE fixes your white page error

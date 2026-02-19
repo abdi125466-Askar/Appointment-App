@@ -1,11 +1,7 @@
 import axios from "axios";
 
-/**
- * =====================================================
- * Central Axios Instance
- * =====================================================
- */
 const api = axios.create({
+  // ✅ ku dar /api
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:4000/api",
   timeout: 15000,
   headers: {
@@ -13,12 +9,9 @@ const api = axios.create({
   },
 });
 
-/**
- * =====================================================
- * 🔐 REQUEST INTERCEPTOR
- * Attach JWT token if exists
- * =====================================================
- */
+/* =========================
+   REQUEST INTERCEPTOR
+========================= */
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("appointment_app_token");
@@ -32,18 +25,14 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-/**
- * =====================================================
- * 🚨 RESPONSE INTERCEPTOR
- * Safe auth handling
- * =====================================================
- */
+/* =========================
+   RESPONSE INTERCEPTOR
+========================= */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
 
-    // 🔁 Session expired
     if (status === 401) {
       localStorage.removeItem("appointment_app_token");
 
@@ -52,7 +41,6 @@ api.interceptors.response.use(
       }
     }
 
-    // ⛔ Forbidden
     if (status === 403) {
       if (window.location.pathname !== "/unauthorized") {
         window.location.href = "/unauthorized";
@@ -64,4 +52,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-

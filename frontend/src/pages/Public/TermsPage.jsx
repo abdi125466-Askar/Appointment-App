@@ -1,8 +1,7 @@
 export default function TermsPage() {
   return (
-    <main className="relative flex-1 overflow-hidden">
-      {/* ✅ Layout (PublicLayout) is handling MP4 background */}
-      <div className="absolute inset-0 bg-white/35" />
+    <main className="relative flex-1 overflow-hidden w-full">
+      <div className="absolute inset-0 bg-white/35 pointer-events-none" />
 
       <div className="relative mx-auto max-w-5xl px-4 md:px-8 py-10 md:py-14">
         <div className="text-center">
@@ -17,36 +16,27 @@ export default function TermsPage() {
         <div className="mt-8 rounded-[28px] bg-white/60 border border-white/70 backdrop-blur-xl shadow-xl shadow-slate-900/10 overflow-hidden">
           <div className="h-1.5 bg-gradient-to-r from-indigo-500 via-blue-600 to-sky-500" />
 
-          <div className="p-6 md:p-8">
-            <div className="grid gap-4">
-              <TermCard
-                title="Isticmaalka adeegga"
-                text="Waxaad ogolaatay inaad isticmaasho Appointify si sharci ah oo aan waxyeello u geysan nidaamka."
-              />
-              <TermCard
-                title="Xaqiijinta xogta"
-                text="Adiga ayaa mas’uul ka ah saxnaanta xogta aad geliso (magac, dokumenti, taariikh)."
-              />
-              <TermCard
-                title="Ballan & jadwal"
-                text="Ballanta waxaa lagu xiraa helitaanka adeegga. Haddii jadwalka is beddelo, nidaamku wuu ku wargelin karaa."
-              />
-              <TermCard
-                title="Mas’uuliyadda"
-                text="Appointify waxay bixisaa hab fudud oo codsi/track ah; go’aanka ugu dambeeya wuxuu ku xirnaan karaa hay’adda adeegga."
-              />
-              <TermCard
-                title="Cusbooneysiinta shuruudaha"
-                text="Waxaan cusboonaysiin karnaa Terms mararka qaar. Isticmaalkaaga joogtada ah wuxuu ka dhigan yahay inaad aqbashay isbeddelada."
-              />
-            </div>
-
-            <div className="mt-6 rounded-2xl border border-slate-200/70 bg-white/70 p-4">
-              <p className="text-sm md:text-[15px] font-semibold text-slate-700 leading-relaxed">
-                Haddii aad u baahan tahay faahfaahin dheeraad ah, fadlan booqo{" "}
-                <span className="font-black">Support</span>.
-              </p>
-            </div>
+          <div className="p-6 md:p-8 grid gap-4">
+            <TermCard
+              title="Isticmaalka adeegga"
+              text="Waxaad ogolaatay inaad isticmaasho Appointify si sharci ah oo aan waxyeello u geysan nidaamka."
+            />
+            <TermCard
+              title="Xaqiijinta xogta"
+              text="Adiga ayaa mas’uul ka ah saxnaanta xogta aad geliso (magac, dokumenti, taariikh)."
+            />
+            <TermCard
+              title="Ballan & jadwal"
+              text="Ballanta waxaa lagu xiraa helitaanka adeegga. Haddii jadwalka is beddelo, nidaamku wuu ku wargelin karaa."
+            />
+            <TermCard
+              title="Mas’uuliyadda"
+              text="Appointify waxay bixisaa hab fudud oo codsi/track ah; go’aanka ugu dambeeya wuxuu ku xirnaan karaa hay’adda adeegga."
+            />
+            <TermCard
+              title="Cusbooneysiinta shuruudaha"
+              text="Waxaan cusboonaysiin karnaa Terms mararka qaar. Isticmaalkaaga joogtada ah wuxuu ka dhigan yahay inaad aqbashay isbeddelada."
+            />
           </div>
         </div>
       </div>

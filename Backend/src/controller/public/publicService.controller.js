@@ -1,56 +1,69 @@
+const mongoose = require("mongoose");
 const Service = require("../../model/Service");
 const Appointment = require("../../model/Appointment");
 
-
 exports.getActiveServices = async (req, res) => {
   try {
-    const services = await Service.find({ isActive: true }).sort({ name: 1 });
-    res.json({ success: true, data: services });
+    const services = await Service.find({ isActive: true }).sort({ createdAt: -1 });
+    return res.json({ success: true, data: services });
   } catch (err) {
-    res.status(500).json({ message: "Failed to load services" });
+    console.error("getActiveServices error:", err);
+    return res.status(500).json({ success: false, message: "Failed to fetch services" });
   }
 };
-
 
 exports.getServiceAvailability = async (req, res) => {
   try {
     const { serviceId } = req.params;
-    const { date } = req.query; // yyyy-mm-dd
+    const { date } = req.query; // ?date=YYYY-MM-DD
+
+    if (!mongoose.Types.ObjectId.isValid(serviceId)) {
+      return res.status(400).json({ success: false, message: "Invalid serviceId" });
+    }
 
     if (!date) {
-      return res.status(400).json({ message: "date is required" });
+      return res.status(400).json({ success: false, message: "Missing date" });
     }
 
     const service = await Service.findById(serviceId);
     if (!service || !service.isActive) {
-      return res.status(404).json({ message: "Service not found" });
+      return res.status(404).json({ success: false, message: "Service not available" });
     }
 
     const start = new Date(date);
     start.setHours(0, 0, 0, 0);
-
     const end = new Date(date);
     end.setHours(23, 59, 59, 999);
 
-    const bookedCount = await Appointment.countDocuments({
+    const limit = Number(service.maxCustomersPerDay || 0);
+    if (limit <= 0) {
+      return res.json({
+        success: true,
+        data: { available: true, remaining: null, message: "Available ✅" },
+      });
+    }
+
+    const booked = await Appointment.countDocuments({
       serviceId,
       appointmentDate: { $gte: start, $lte: end },
       status: { $in: ["PENDING", "APPROVED"] },
     });
 
-    const max = service.maxCustomersPerDay;
+    const remaining = Math.max(limit - booked, 0);
+    const available = booked < limit;
 
-    res.json({
+    return res.json({
       success: true,
       data: {
-        date,
-        maxCustomersPerDay: max,
-        booked: bookedCount,
-        available: max === 0 ? true : bookedCount < max,
-        remaining: max === 0 ? null : max - bookedCount,
+        available,
+        remaining,
+        booked,
+        limit,
+        message: available ? `Available ✅ (Remaining: ${remaining})` : "Fully booked ❌",
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Failed to check availability" });
+    console.error("getServiceAvailability error:", err);
+    return res.status(500).json({ success: false, message: "Failed to check availability" });
   }
 };

@@ -2,9 +2,8 @@ import { Mail, Phone, MessageCircle } from "lucide-react";
 
 export default function SupportPage() {
   return (
-    <main className="relative flex-1 overflow-hidden">
-      {/* ✅ Layout (PublicLayout) is handling MP4 background */}
-      <div className="absolute inset-0 bg-white/35" />
+    <main className="relative flex-1 overflow-hidden w-full">
+      <div className="absolute inset-0 bg-white/35 pointer-events-none" />
 
       <div className="relative mx-auto max-w-5xl px-4 md:px-8 py-10 md:py-14">
         <div className="text-center">
@@ -21,28 +20,15 @@ export default function SupportPage() {
 
           <div className="p-6 md:p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <SupportCard
-                icon={<Mail size={18} />}
-                title="Email"
-                text="support@appointify.com"
-              />
-              <SupportCard
-                icon={<Phone size={18} />}
-                title="Phone"
-                text="+252 63 000 0000"
-              />
-              <SupportCard
-                icon={<MessageCircle size={18} />}
-                title="Live Help"
-                text="Chat / Ticket (soon)"
-              />
+              <SupportCard icon={<Mail size={18} />} title="Email" text="support@appointify.com" />
+              <SupportCard icon={<Phone size={18} />} title="Phone" text="+252 63 000 0000" />
+              <SupportCard icon={<MessageCircle size={18} />} title="Live Help" text="Chat / Ticket (soon)" />
             </div>
 
             <div className="mt-6 rounded-2xl border border-slate-200/70 bg-white/70 p-4">
               <p className="text-sm md:text-[15px] font-semibold text-slate-700 leading-relaxed">
-                Talo: haddii aad tracking dhibaato qabto, hubi inaad gelisay{" "}
-                <span className="font-black">Tracking ID</span> sax ah (tusaale:
-                APP-2026-001).
+                Talo: Tracking page-ka waxaad gelisaa <span className="font-black">Appointment ID</span> (ObjectId),
+                tusaale: <span className="font-black">69943511355485cf07518640</span>.
               </p>
             </div>
           </div>

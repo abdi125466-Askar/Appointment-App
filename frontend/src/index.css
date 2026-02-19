@@ -1,16 +1,6 @@
 @import "tailwindcss";
 
-@theme {
-  --blue-950: #000814;
-  --blue-900: #001d3d;
-  --blue-800: #003566;
-
-  --yellow-500: #ffc300;
-  --yellow-400: #ffd60a;
-  --yellow-300: #ffe345;
-}
-
-/* ✅ Page-ka oo dhan ha buuxsamo */
+/* page full height */
 html,
 body,
 #root {
@@ -22,7 +12,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ✅ Font saxan */
+/* font */
 * {
   font-family: "Prompt", sans-serif;
 }
