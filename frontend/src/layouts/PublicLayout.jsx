@@ -28,7 +28,7 @@ export default function PublicLayout() {
       ? "bg-slate-950/55 backdrop-blur-[1px]"
       : "bg-black/35 backdrop-blur-[1px]";
 
-  // ✅ HOME: no-scroll, pages kale: scroll normal
+  // ✅ ONLY HOME: no-scroll
   const isHome = pathname === "/";
 
   return (
@@ -60,7 +60,7 @@ export default function PublicLayout() {
         </div>
       </main>
 
-      {/* ✅ Footer: HOME ka qari si scroll uusan u imaan (pages kale ha muuqdo) */}
+      {/* ✅ Footer: HOME ka qari (sidaad hore u samaysay) */}
       {!isHome && (
         <footer className="relative z-10 border-t border-white/10">
           <div className="bg-gradient-to-r from-slate-950 via-slate-900/95 to-emerald-950/80 backdrop-blur-xl">

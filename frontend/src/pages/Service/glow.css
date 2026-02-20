@@ -1,0 +1,230 @@
+/* ====== Title keep one line ====== */
+.svcTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===============================
+   HEADER DECORATION
+================================= */
+.headerGlow {
+  position: relative;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
+}
+.headerGlow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 24px;
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.65),
+    rgba(16, 185, 129, 0.55),
+    rgba(99, 102, 241, 0.60)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.subGlow {
+  position: relative;
+  background: rgba(15, 23, 42, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 18px 30px rgba(0, 0, 0, 0.10);
+}
+.subGlow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 24px;
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.40),
+    rgba(16, 185, 129, 0.30),
+    rgba(99, 102, 241, 0.35)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ===============================
+   MAIN CARD BORDER GLOW
+================================= */
+.serviceGlow {
+  position: relative;
+}
+.serviceGlow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 26px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 209, 0.55),
+    rgba(80, 120, 255, 0.70),
+    rgba(0, 255, 209, 0.55)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ===============================
+   ✅ DESCRIPTION BIG BOX (OUTER)
+   - Birth + National = BLUE
+   - Passport = GREEN
+================================= */
+.infoCard {
+  border-radius: 18px;
+  padding: 12px;
+  min-height: 126px;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.10);
+}
+
+/* big bg tones */
+.infoTone-blue {
+  background: rgba(30, 64, 175, 0.40);
+  border: 1px solid rgba(59, 130, 246, 0.40);
+}
+.infoTone-green {
+  background: rgba(5, 150, 105, 0.36);
+  border: 1px solid rgba(16, 185, 129, 0.38);
+}
+
+/* ===============================
+   ✅ INNER ROWS = BLACK STRONG (ALL)
+   + SAME HEIGHT ROWS
+================================= */
+.infoRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;           /* ✅ center vertically */
+  padding: 12px 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+
+  /* ✅ make both rows same height */
+  min-height: 74px;              /* waxaad ku kordhin/yarayn kartaa */
+}
+.infoRow:last-child {
+  margin-bottom: 0;
+}
+
+.rowBlack {
+  /* ✅ stronger black so text is readable */
+  background: rgba(2, 6, 23, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 10px 16px rgba(0, 0, 0, 0.22);
+}
+
+/* dot */
+.infoDot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.dot-blue {
+  color: rgba(147, 197, 253, 0.98);
+  border-color: rgba(59, 130, 246, 0.30);
+}
+.dot-green {
+  color: rgba(110, 231, 183, 0.98);
+  border-color: rgba(16, 185, 129, 0.30);
+}
+
+/* text */
+.infoText {
+  font-size: 13.75px;
+  line-height: 1.35rem;
+  font-weight: 900;              /* ✅ bolder */
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); /* ✅ extra contrast */
+}
+
+/* ===============================
+   IMAGE FRAME (NEON)
+================================= */
+.imgFrame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 8px;
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.12);
+}
+.imgFrame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 20px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.95;
+}
+.imgFrame::after {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 26px;
+  filter: blur(18px);
+  pointer-events: none;
+  opacity: 0.50;
+}
+
+.imgInside {
+  width: 100%;
+  height: 152px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+/* frame colors */
+.frame-blue::before {
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.95),
+    rgba(99, 102, 241, 0.95),
+    rgba(14, 165, 233, 0.95)
+  );
+}
+.frame-blue::after {
+  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.28), transparent 55%);
+}
+
+.frame-green::before {
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.95),
+    rgba(13, 148, 136, 0.95),
+    rgba(34, 211, 238, 0.90)
+  );
+}
+.frame-green::after {
+  background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.24), transparent 55%);
+}
