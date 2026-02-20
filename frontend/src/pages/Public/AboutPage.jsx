@@ -1,4 +1,3 @@
-// frontend/src/pages/Public/AboutPage.jsx
 import React from "react";
 import {
   ShieldCheck,
@@ -15,7 +14,7 @@ import { Link } from "react-router-dom";
 
 /** ====== Small UI ====== */
 const StatusBadge = () => (
-  <div className="inline-flex items-center gap-2 rounded-2xl border border-sky-400/60 bg-slate-900/30 px-3 py-2 text-xs font-bold text-white shadow-[0_10px_30px_-18px_rgba(56,189,248,0.55)] ring-1 ring-sky-400/30 backdrop-blur-xl">
+  <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-sky-400/60 bg-slate-900/30 px-3 py-2 text-[11px] sm:text-xs font-bold text-white shadow-[0_10px_30px_-18px_rgba(56,189,248,0.55)] ring-1 ring-sky-400/30 backdrop-blur-xl">
     <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/60 bg-amber-500/15 px-2 py-1 text-amber-100">
       <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
       Pending
@@ -106,13 +105,11 @@ export default function AboutPage() {
         <div className="absolute left-1/2 bottom-10 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-500/14 blur-3xl" />
       </div>
 
-      {/* ✅ CENTER WRAPPER (sida Terms page) */}
-      <div className="relative flex justify-center px-6 py-10">
+      <div className="relative flex justify-center px-3 sm:px-6 py-8 sm:py-10">
         <div className="w-full max-w-[980px]">
-          <div className="rounded-[28px] border border-sky-400/80 bg-slate-900/20 p-6 backdrop-blur-2xl ring-2 ring-sky-400/35 shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_0_55px_rgba(56,189,248,0.22),0_40px_120px_-60px_rgba(0,0,0,0.85)] md:p-10">
+          <div className="rounded-[24px] sm:rounded-[28px] border border-sky-400/80 bg-slate-900/20 p-5 sm:p-6 md:p-10 backdrop-blur-2xl ring-2 ring-sky-400/35 shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_0_55px_rgba(56,189,248,0.22),0_40px_120px_-60px_rgba(0,0,0,0.85)]">
             {/* HERO GRID */}
-            <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
-              {/* Left */}
+            <div className="grid gap-7 lg:grid-cols-[1fr_360px] lg:items-start">
               <div className="text-center">
                 <div className="flex justify-center">
                   <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/45 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-50 ring-1 ring-emerald-400/20">
@@ -121,7 +118,7 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
+                <h1 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white">
                   About{" "}
                   <span className="inline-flex items-baseline gap-0.5">
                     <span className="text-white">Appoint</span>
@@ -129,7 +126,7 @@ export default function AboutPage() {
                   </span>
                 </h1>
 
-                <p className="mt-3 text-sm leading-7 text-slate-100/85 md:text-base">
+                <p className="mt-3 text-sm sm:text-base leading-7 text-slate-100/85">
                   Appointify waxay caawisaa muwaadiniinta inay adeegyada dowladda si online ah u qabsadaan,
                   safafka u yareeyaan, ayna si hufan ula socdaan xaaladda codsigooda iyagoo adeegsanaya{" "}
                   <span className="font-semibold text-white">Tracking ID</span>.
@@ -142,24 +139,23 @@ export default function AboutPage() {
                   <span className="font-semibold">degdeg</span>, iyo <span className="font-semibold">hufan</span> qof walba.
                 </div>
 
-                <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <div className="mt-6 flex flex-col sm:flex-row flex-wrap justify-center gap-3">
                   <Link
                     to="/services"
-                    className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 px-4 py-2 text-sm font-bold text-white shadow-[0_16px_45px_-22px_rgba(37,99,235,0.95)] ring-1 ring-white/10 transition hover:brightness-110"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 px-4 py-2 text-sm font-bold text-white shadow-[0_16px_45px_-22px_rgba(37,99,235,0.95)] ring-1 ring-white/10 transition hover:brightness-110"
                   >
                     Explore Services <ArrowRight className="h-4 w-4" />
                   </Link>
 
                   <Link
                     to="/track"
-                    className="inline-flex items-center gap-2 rounded-xl border border-sky-400/40 bg-slate-900/25 px-4 py-2 text-sm font-bold text-white/95 ring-1 ring-sky-400/20 backdrop-blur-xl transition hover:bg-slate-900/35"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-400/40 bg-slate-900/25 px-4 py-2 text-sm font-bold text-white/95 ring-1 ring-sky-400/20 backdrop-blur-xl transition hover:bg-slate-900/35"
                   >
                     Track Request
                   </Link>
                 </div>
               </div>
 
-              {/* Right stats */}
               <div className="grid gap-3">
                 {stats.map((s) => (
                   <Stat key={s.label} icon={s.icon} label={s.label} value={s.value} />
@@ -167,18 +163,16 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Features */}
             <div className="mt-10 grid gap-4 md:grid-cols-2">
               {features.map((f) => (
                 <Feature key={f.title} icon={f.icon} title={f.title} desc={f.desc} />
               ))}
             </div>
 
-            {/* How it works */}
-            <div className="mt-10 rounded-[24px] border border-sky-400/35 bg-slate-900/20 p-6 backdrop-blur-2xl ring-1 ring-sky-400/20 shadow-[0_26px_85px_-55px_rgba(56,189,248,0.35)] md:p-8">
+            <div className="mt-10 rounded-[22px] sm:rounded-[24px] border border-sky-400/35 bg-slate-900/20 p-5 sm:p-6 md:p-8 backdrop-blur-2xl ring-1 ring-sky-400/20 shadow-[0_26px_85px_-55px_rgba(56,189,248,0.35)]">
               <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                 <div className="text-center md:text-left">
-                  <h2 className="text-xl font-extrabold text-white">Sida Ay U Shaqayso</h2>
+                  <h2 className="text-lg sm:text-xl font-extrabold text-white">Sida Ay U Shaqayso</h2>
                   <p className="mt-1 text-sm text-slate-100/80">
                     3 tallaabo oo kooban — adeeg dooro, foom buuxi, kadibna la soco.
                   </p>
@@ -202,7 +196,7 @@ export default function AboutPage() {
 
                 <Link
                   to="/services"
-                  className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/55 bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_18px_55px_-25px_rgba(16,185,129,0.75)] ring-1 ring-white/10 transition hover:brightness-110"
+                  className="w-full md:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/55 bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_18px_55px_-25px_rgba(16,185,129,0.75)] ring-1 ring-white/10 transition hover:brightness-110"
                 >
                   Apply Now <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -210,7 +204,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="mt-8 text-center text-xs text-slate-200/70">
+          <div className="mt-6 sm:mt-8 text-center text-[11px] sm:text-xs text-slate-200/70">
             © {new Date().getFullYear()} Appointify — Smart Booking System
           </div>
         </div>

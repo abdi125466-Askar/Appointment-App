@@ -1,0 +1,281 @@
+:root{
+  --public-header-h: 80px;
+  --public-footer-h: 56px;
+}
+
+/* ============ 1 PAGE (NO SCROLL) ============ */
+.landingHero{
+  height: calc(100vh - var(--public-header-h) - var(--public-footer-h));
+  min-height: calc(100vh - var(--public-header-h) - var(--public-footer-h));
+  overflow: hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 14px 0;
+  position: relative;
+}
+
+.landingOverlay{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(1000px 600px at 30% 30%, rgba(15,23,42,.22), rgba(15,23,42,.38)),
+    linear-gradient(135deg, rgba(15,23,42,.30), rgba(17,24,39,.42));
+  z-index:-1;
+}
+
+.heroWrap{
+  width:100%;
+  max-width: 1200px;
+  padding: 0 24px;
+}
+
+.heroGrid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  align-items:stretch;
+}
+
+@media (min-width: 1024px){
+  .heroGrid{ grid-template-columns: 1fr 1fr; gap: 34px; }
+}
+
+/* ===== GLASS CARDS ===== */
+.glassOuter{
+  border-radius: 30px;
+  backdrop-filter: blur(22px);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 25px 60px rgba(0,0,0,.30);
+  overflow:hidden;
+}
+
+.heroLeft{
+  background: linear-gradient(135deg,#0ea5e9,#2563eb,#10b981);
+}
+.heroRight{
+  background: linear-gradient(135deg,#059669,#0d9488,#2563eb);
+}
+
+.innerPad{ padding: 22px; height: 100%; }
+
+.glassInner{
+  height: 100%;
+  background: rgba(0,0,0,.16);
+  border-radius: 22px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* Make cards fit inside 1-page height */
+.heroH{
+  height: min(430px, calc(100vh - var(--public-header-h) - var(--public-footer-h) - 60px));
+}
+
+@media (max-width: 768px){
+  .landingHero{
+    height: auto;
+    min-height: calc(100vh - var(--public-header-h) - var(--public-footer-h));
+    padding: 18px 0;
+    overflow: visible;
+  }
+  .heroH{ height: auto; }
+}
+
+/* ===== TITLES ===== */
+.heroTitle{
+  font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+.heroTitleSmall{
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+/* ✅ Title frame border (no overflow / no outside push) */
+.titleFrame{
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* ===== NOTES ===== */
+.heroNote{
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.22);
+  padding: 10px 12px;
+  font-weight: 800;
+  color: rgba(255,255,255,.92);
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+
+/* ===== PILLS ===== */
+.pillRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.pill{
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.20);
+  background: rgba(0,0,0,.26);
+  padding: 6px 10px;
+  font-weight: 900;
+  font-size: .85rem;
+  color: rgba(255,255,255,.92);
+  white-space: nowrap;
+}
+
+/* ===== BUTTONS ===== */
+.btnRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 12px;
+}
+.btnPrimary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  color:#fff;
+
+  background: var(--btn-bg, rgba(255,255,255,.14));
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 14px 28px rgba(0,0,0,.22);
+  transition: transform .18s ease, filter .18s ease;
+}
+.btnPrimary:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+.btnBlue{ --btn-bg: rgba(29,78,216,.92); }
+.btnGreen{ --btn-bg: rgba(4,120,87,.92); }
+
+/* ✅ Start Request (same “glass” as frames, not white) */
+.btnGhost{
+  --btn-bg: rgba(0,0,0,.22);
+  color: rgba(255,255,255,.95);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 14px 28px rgba(0,0,0,.22);
+}
+
+.btnArrow{ animation: arrowNudge 1.6s ease-in-out infinite; }
+@keyframes arrowNudge{
+  0%,100% { transform: translateX(0); opacity: .9; }
+  50% { transform: translateX(6px); opacity: 1; }
+}
+.btnPrimary:hover .btnArrow{ transform: translateX(10px); }
+
+/* ===== RIGHT FEATURES ===== */
+.featureStack{
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+  margin-top: 10px;
+}
+.textFrame{
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.22);
+  padding: 12px 14px;
+}
+.frameRow{
+  display:flex;
+  align-items:flex-start;
+  gap: 12px;
+}
+.iconBox{
+  height: 42px;
+  width: 42px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  background: rgba(16,185,129,.18);
+  border: 1px solid rgba(167,243,208,.24);
+}
+.iconBox.sky{
+  background: rgba(14,165,233,.18);
+  border: 1px solid rgba(186,230,253,.24);
+}
+
+.frameTitle{
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.frameDesc{
+  font-weight: 700;
+  color: rgba(255,255,255,.82);
+  font-size: .92rem;
+  line-height: 1.2;
+}
+
+/* STATUS PILLS */
+.statusRow{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.statusPill{
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: .82rem;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.18);
+  color: #fff;
+}
+.statusArrow{
+  color: rgba(255,255,255,.75);
+  font-weight: 900;
+}
+.statusPill.pending{
+  border-color: rgba(251,191,36,.55);
+  background: rgba(251,191,36,.15);
+}
+.statusPill.approved{
+  border-color: rgba(16,185,129,.55);
+  background: rgba(16,185,129,.16);
+}
+.statusPill.completed{
+  border-color: rgba(56,189,248,.55);
+  background: rgba(56,189,248,.14);
+}
+
+/* ✅ CTA: lift up so it doesn't drop */
+.ctaWrap{
+  margin-top: 6px;
+  padding-top: 0px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap: 6px;
+
+  transform: translateY(-6px); /* ✅ kor u qaad */
+}
+
+/* Mobile */
+@media (max-width: 640px){
+  .heroWrap{ padding: 0 14px; }
+  .glassInner{ padding: 18px; }
+  .btnPrimary{ width: 100%; justify-content:center; }
+  .ctaWrap{ align-items:stretch; transform: translateY(0); }
+}

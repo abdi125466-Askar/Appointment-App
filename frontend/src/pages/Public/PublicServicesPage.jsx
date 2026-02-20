@@ -430,7 +430,7 @@ export default function PublicServicesPage() {
       bullets: [
         {
           icon: IdCard,
-          title: "Diiwaangelin Kaarka ",
+          title: "Diiwaangelin Kaarka",
           text: "Buuxi xogta oo ku lifaaq dukumentiyada loo baahan yahay.",
         },
         {
@@ -444,7 +444,6 @@ export default function PublicServicesPage() {
 
   return (
     <section className="servicesPageWrap">
-      {/* HEADER (Services + subtitle) */}
       <div className="servicesHero">
         <h1 className="servicesTitle glowBorderBlue">Services</h1>
 
@@ -453,11 +452,9 @@ export default function PublicServicesPage() {
         </p>
       </div>
 
-      {/* CARDS */}
       <div className="servicesGrid">
         {services.map((s) => (
           <article key={s.key} className={`serviceCard serviceCard--${s.theme}`}>
-            {/* top row */}
             <div className="serviceTop">
               <div className="serviceTopTitle">
                 <span className="servicePillTitle">{s.title}</span>
@@ -475,7 +472,6 @@ export default function PublicServicesPage() {
               </button>
             </div>
 
-            {/* description */}
             <div className={`descOuter descOuter--${s.theme}`}>
               <div className="descInner">
                 {s.bullets.map((b, idx) => {
@@ -495,10 +491,9 @@ export default function PublicServicesPage() {
               </div>
             </div>
 
-            {/* image frame */}
             <div className="docWrap">
               <div className={`docFrame docFrame--${s.theme}`}>
-                <img className="docImg" src={s.img} alt={s.title} />
+                <img className="docImg" src={s.img} alt={s.title} loading="lazy" />
               </div>
             </div>
           </article>

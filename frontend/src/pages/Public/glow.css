@@ -1,7 +1,3 @@
-/* =========================
-   SERVICES PAGE (FULL CSS)
-   ========================= */
-
 :root{
   --blue1:#3b82f6;
   --blue2:#06b6d4;
@@ -10,11 +6,12 @@
   --ink:#0b1220;
 }
 
+/* page wrapper */
 .servicesPageWrap{
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 18px 18px 10px;
+  padding: 18px 18px 12px;
   box-sizing: border-box;
 }
 
@@ -22,7 +19,7 @@
 .servicesHero{
   text-align: center;
   margin-top: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .servicesTitle{
@@ -50,7 +47,7 @@
   box-shadow: 0 12px 24px rgba(0,0,0,.18);
 }
 
-/* GRID */
+/* GRID (desktop) */
 .servicesGrid{
   margin-top: 12px;
   display: grid;
@@ -67,13 +64,11 @@
   box-shadow: 0 20px 40px rgba(0,0,0,.18);
   backdrop-filter: blur(6px);
   position: relative;
-
-  /* height discipline si scroll u yaraado */
-  min-height: 520px;
 }
 
-.accentBlue{ border: 2px solid rgba(59,130,246,.55); }
-.accentGreen{ border: 2px solid rgba(16,185,129,.55); }
+/* card border by theme */
+.serviceCard--blue{ border: 2px solid rgba(59,130,246,.55); }
+.serviceCard--green{ border: 2px solid rgba(16,185,129,.55); }
 
 .serviceTop{
   display:flex;
@@ -109,6 +104,7 @@
   font-weight: 900;
   box-shadow: 0 14px 24px rgba(0,0,0,.18);
   transition: transform .18s ease, filter .18s ease;
+  white-space: nowrap;
 }
 
 .applyBtn:active{ transform: scale(.98); }
@@ -138,7 +134,7 @@
   50%{ transform: translateX(4px); opacity: .9; }
 }
 
-/* DESCRIPTION OUTER */
+/* DESCRIPTION OUTER by theme */
 .descOuter{
   border-radius: 16px;
   padding: 10px;
@@ -146,8 +142,9 @@
   border: 1px solid rgba(148,163,184,.25);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
 }
+.descOuter--blue{ box-shadow: inset 0 0 0 1px rgba(59,130,246,.25); }
+.descOuter--green{ box-shadow: inset 0 0 0 1px rgba(16,185,129,.25); }
 
-/* DESCRIPTION INNER */
 .descInner{
   border-radius: 14px;
   padding: 10px;
@@ -164,10 +161,7 @@
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.08);
 }
-
-.descItem + .descItem{
-  margin-top: 10px;
-}
+.descItem + .descItem{ margin-top: 10px; }
 
 .descIcon{
   width: 34px;
@@ -181,15 +175,11 @@
   color: #e2e8f0;
   flex: 0 0 auto;
 }
+.descIcon--blue{ box-shadow: 0 0 0 1px rgba(59,130,246,.20) inset; }
+.descIcon--green{ box-shadow: 0 0 0 1px rgba(16,185,129,.20) inset; }
 
 .descText{ flex: 1; }
-
-.descTitle{
-  color: #fff;
-  font-weight: 900;
-  margin-bottom: 4px;
-}
-
+.descTitle{ color: #fff; font-weight: 900; margin-bottom: 4px; }
 .descBody{
   color: rgba(255,255,255,.85);
   font-weight: 700;
@@ -197,29 +187,23 @@
   font-size: 13px;
 }
 
-/* IMAGE AREA */
-.docWrap{
-  margin-top: 12px;
-}
+/* IMAGE */
+.docWrap{ margin-top: 12px; }
 
-/* ✅ IMPORTANT:
-   docFrame glow kor/hoos ha jarmin -> overflow: visible
-   padding & inset bigger -> glow muuqda dhammaan dhinacyada
-*/
+/* neon frame: make glow show on all sides */
 .docFrame{
   position: relative;
   border-radius: 18px;
-  overflow: visible;            /* <-- muhiim */
-  padding: 18px;                /* <-- space si glow u muuqdo */
+  overflow: visible;        /* important */
+  padding: 18px;            /* space for glow */
   background: rgba(0,0,0,.95);
   box-shadow: 0 16px 32px rgba(0,0,0,.20);
 }
 
-/* neon border */
 .docFrame::before{
   content:"";
   position:absolute;
-  inset: -8px;                  /* <-- sii balaari glow */
+  inset: -8px;              /* top/bottom visible */
   border-radius: 26px;
   padding: 3px;
   background: linear-gradient(90deg, var(--blue1), var(--green1), #6366f1);
@@ -232,23 +216,63 @@
   mask-composite: exclude;
 }
 
+.docFrame--blue::before{
+  background: linear-gradient(90deg, var(--blue1), var(--blue2), #6366f1);
+}
+.docFrame--green::before{
+  background: linear-gradient(90deg, var(--green1), var(--green2), #16a34a);
+}
+
 @keyframes glowPulse{
   0%,100%{ filter: brightness(1); opacity: .85; }
   50%{ filter: brightness(1.25); opacity: 1; }
 }
 
-/* ✅ sawirku ha weynaado */
 .docImg{
   width: 100%;
-  height: 170px;               /* <-- xadid */
+  height: 170px;
   object-fit: cover;
   border-radius: 14px;
   display: block;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1020px){
-  .servicesGrid{ grid-template-columns: 1fr; }
-  .serviceCard{ min-height: unset; }
-  .servicesTitle{ font-size: 38px; }
+/* =========================
+   RESPONSIVE BREAKPOINTS
+   ========================= */
+
+/* Large tablets / small laptops -> 2 columns */
+@media (max-width: 1100px){
+  .servicesGrid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Phones -> 1 column + smaller hero */
+@media (max-width: 700px){
+  .servicesPageWrap{ padding: 14px 12px 12px; }
+
+  .servicesTitle{
+    font-size: 34px;
+    padding: 10px 18px;
+    border-radius: 14px;
+  }
+
+  .servicesSub{
+    max-width: 92%;
+    border-radius: 18px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.2rem;
+  }
+
+  .servicesGrid{ grid-template-columns: 1fr; gap: 14px; }
+
+  .serviceTop{ flex-wrap: wrap; }
+  .applyBtn{ width: 100%; justify-content: center; }
+
+  .docImg{ height: 160px; }
+}
+
+/* Very small phones */
+@media (max-width: 380px){
+  .servicesTitle{ font-size: 30px; }
+  .docImg{ height: 150px; }
 }
