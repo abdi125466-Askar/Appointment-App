@@ -261,7 +261,7 @@ export default function DashboardLayout() {
 
   const fetchUpdates = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${API_BASE}/api/dashboard/updates`, {
+      const { data } = await axios.get(`${API_BASE}/dashboard/updates`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
 
