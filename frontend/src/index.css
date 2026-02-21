@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* page full height */
+/* Reset & Full Height */
 html,
 body,
 #root {
@@ -10,9 +10,7 @@ body,
 body {
   margin: 0;
   overflow-x: hidden;
-}
-
-/* font */
-* {
   font-family: "Prompt", sans-serif;
+  background-color: #020617; /* Slate 950 */
+  color: #e2e8f0; /* Slate 200 */
 }

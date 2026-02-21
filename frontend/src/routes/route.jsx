@@ -1,3 +1,102 @@
+// import React from "react";
+// import ProtectedRoute from "./ProtectedRoute";
+
+// // ================= USER PAGES =================
+// import Login from "../pages/user/Login";
+// import Profile from "../pages/user/Profile";
+// import Users from "../pages/user/Users";
+
+// // ================= CUSTOMER PAGES =================
+// import Customers from "../pages/customer/Customers";
+// import CreateAppointment from "../pages/customer/CreateAppointment";
+// import PendingAppointments from "../pages/customer/PendingAppointments";
+// import ApprovedAppointments from "../pages/customer/ApprovedAppointments";
+// import CompletedAppointments from "../pages/customer/CompletedAppointments";
+
+// // ================= SERVICE PAGES (DASHBOARD) =================
+// import Services from "../pages/Service/Services";
+
+// // ================= EMPLOYEE =================
+// import EmployeeDashboard from "../pages/Employee/EmployeeDashboard";
+
+// // ================= PUBLIC =================
+// import PublicAppointmentPage from "../pages/Public/PublicAppointmentPage";
+// import PublicLayout from "../layouts/PublicLayout";
+// import LandingPage from "../pages/Public/LandingPage";
+// import PublicServicesPage from "../pages/Public/PublicServicesPage";
+// import PublicTrackPage from "../pages/Public/PublicTrackPage";
+// import AboutPage from "../pages/Public/AboutPage";
+// import PrivacyPage from "../pages/Public/PrivacyPage";
+// import TermsPage from "../pages/Public/TermsPage";
+// import SupportPage from "../pages/Public/SupportPage";
+
+// // ================= LAYOUT =================
+// import DashboardLayout from "../layouts/DashboardLayout";
+// import Dashboard from "../Components/Dashboard";
+
+// const systemRoutes = [
+//   /* =====================================================
+//      🔓 PUBLIC ROUTES
+//   ===================================================== */
+//   {
+//     element: <PublicLayout />,
+//     children: [
+//       { index: true, element: <LandingPage /> }, // "/"
+//       { path: "/services", element: <PublicServicesPage /> },
+//       { path: "/track", element: <PublicTrackPage /> },
+//       { path: "/about", element: <AboutPage /> },
+
+//       // Footer pages
+//       { path: "/privacy", element: <PrivacyPage /> },
+//       { path: "/terms", element: <TermsPage /> },
+//       { path: "/support", element: <SupportPage /> },
+
+//       // Booking
+//       { path: "/book", element: <PublicAppointmentPage /> },
+//     ],
+//   },
+
+//   // Login
+//   { path: "/login", element: <Login /> },
+
+//   /* =====================================================
+//      🔐 PROTECTED ROUTES
+//   ===================================================== */
+//   {
+//     element: (
+//       <ProtectedRoute allowedRoles={["SUPERADMIN", "ADMIN", "STAFF", "USER"]} />
+//     ),
+//     children: [
+//       {
+//         path: "/dashboard",
+//         element: <DashboardLayout />,
+//         children: [
+//           { index: true, element: <Dashboard /> },
+
+//           // USER
+//           { path: "profile", element: <Profile /> },
+//           { path: "users", element: <Users /> },
+
+//           // MANAGEMENT
+//           { path: "customers", element: <Customers /> },
+//           { path: "services", element: <Services /> },
+
+//           // APPOINTMENTS
+//           { path: "create-appointment", element: <CreateAppointment /> },
+//           { path: "pending-appointments", element: <PendingAppointments /> },
+//           { path: "approved-appointments", element: <ApprovedAppointments /> },
+//           { path: "completed-appointments", element: <CompletedAppointments /> },
+
+//           // STAFF
+//           { path: "employee", element: <EmployeeDashboard /> },
+//         ],
+//       },
+//     ],
+//   },
+// ];
+
+// export default systemRoutes; // ✅ THIS LINE fixes your white page error
+
 import React from "react";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -29,15 +128,16 @@ import AboutPage from "../pages/Public/AboutPage";
 import PrivacyPage from "../pages/Public/PrivacyPage";
 import TermsPage from "../pages/Public/TermsPage";
 import SupportPage from "../pages/Public/SupportPage";
+import UnauthorizedPage from "../pages/Public/UnauthorizedPage";
 
 // ================= LAYOUT =================
 import DashboardLayout from "../layouts/DashboardLayout";
 import Dashboard from "../Components/Dashboard";
 
 const systemRoutes = [
-  /* =====================================================
+  /* ======================
      🔓 PUBLIC ROUTES
-  ===================================================== */
+  ====================== */
   {
     element: <PublicLayout />,
     children: [
@@ -53,15 +153,18 @@ const systemRoutes = [
 
       // Booking
       { path: "/book", element: <PublicAppointmentPage /> },
+
+      // Unauthorized
+      { path: "/unauthorized", element: <UnauthorizedPage /> },
     ],
   },
 
-  // Login
+  // Login (public)
   { path: "/login", element: <Login /> },
 
-  /* =====================================================
+  /* ======================
      🔐 PROTECTED ROUTES
-  ===================================================== */
+  ====================== */
   {
     element: (
       <ProtectedRoute allowedRoles={["SUPERADMIN", "ADMIN", "STAFF", "USER"]} />
@@ -95,4 +198,4 @@ const systemRoutes = [
   },
 ];
 
-export default systemRoutes; // ✅ THIS LINE fixes your white page error
+export default systemRoutes;

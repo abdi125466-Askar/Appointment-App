@@ -377,7 +377,7 @@
 
 import { ArrowRight, FileText, IdCard, BookOpen, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import "./glow.css";
+import "./ServicesPage.css";
 
 export default function PublicServicesPage() {
   const navigate = useNavigate();
@@ -386,7 +386,6 @@ export default function PublicServicesPage() {
     {
       key: "birth",
       title: "Birth Certificate",
-      theme: "blue",
       img: "/previews/birth.png",
       applyTo: "/book?service=birth_certificate",
       bullets: [
@@ -405,7 +404,6 @@ export default function PublicServicesPage() {
     {
       key: "passport",
       title: "Passport",
-      theme: "green",
       img: "/previews/passport.png",
       applyTo: "/book?service=passport",
       bullets: [
@@ -424,7 +422,6 @@ export default function PublicServicesPage() {
     {
       key: "nid",
       title: "National ID",
-      theme: "blue",
       img: "/previews/idcard.png",
       applyTo: "/book?service=national_id",
       bullets: [
@@ -445,55 +442,57 @@ export default function PublicServicesPage() {
   return (
     <section className="servicesPageWrap">
       <div className="servicesHero">
-        <h1 className="servicesTitle glowBorderBlue">Services</h1>
+        <h1 className="servicesTitle">Services</h1>
 
-        <p className="servicesSub glowBorderSub">
+        <p className="servicesSub">
           Dooro adeegga aad u baahan tahay, kadib si fudud ugu gudub foomka codsiga.
         </p>
       </div>
 
       <div className="servicesGrid">
         {services.map((s) => (
-          <article key={s.key} className={`serviceCard serviceCard--${s.theme}`}>
-            <div className="serviceTop">
-              <div className="serviceTopTitle">
-                <span className="servicePillTitle">{s.title}</span>
+          <article key={s.key} className="serviceCard">
+            <div className="serviceCardInner">
+              <div className="serviceTop">
+                <div className="serviceTopTitle">
+                  <span className="servicePillTitle">{s.title}</span>
+                </div>
+
+                <button
+                  className="applyBtn"
+                  onClick={() => navigate(s.applyTo)}
+                  type="button"
+                >
+                  Apply
+                  <span className="applyArrow">
+                    <ArrowRight size={18} />
+                  </span>
+                </button>
               </div>
 
-              <button
-                className={`applyBtn applyBtn--${s.theme}`}
-                onClick={() => navigate(s.applyTo)}
-                type="button"
-              >
-                Apply
-                <span className="applyArrow">
-                  <ArrowRight size={18} />
-                </span>
-              </button>
-            </div>
-
-            <div className={`descOuter descOuter--${s.theme}`}>
-              <div className="descInner">
-                {s.bullets.map((b, idx) => {
-                  const Icon = b.icon;
-                  return (
-                    <div key={idx} className="descItem">
-                      <div className={`descIcon descIcon--${s.theme}`}>
-                        <Icon size={18} />
+              <div className="descOuter">
+                <div className="descInner">
+                  {s.bullets.map((b, idx) => {
+                    const Icon = b.icon;
+                    return (
+                      <div key={idx} className="descItem">
+                        <div className="descIcon">
+                          <Icon size={18} />
+                        </div>
+                        <div className="descText">
+                          <div className="descTitle">{b.title}</div>
+                          <div className="descBody">{b.text}</div>
+                        </div>
                       </div>
-                      <div className="descText">
-                        <div className="descTitle">{b.title}</div>
-                        <div className="descBody">{b.text}</div>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            <div className="docWrap">
-              <div className={`docFrame docFrame--${s.theme}`}>
-                <img className="docImg" src={s.img} alt={s.title} loading="lazy" />
+              <div className="docWrap">
+                <div className="docFrame">
+                  <img className="docImg" src={s.img} alt={s.title} loading="lazy" />
+                </div>
               </div>
             </div>
           </article>

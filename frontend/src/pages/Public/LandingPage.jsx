@@ -117,7 +117,7 @@ import "./landing.css";
 
 export default function LandingPage() {
   return (
-    <section className="landingHero">
+    <section className="landingHero app-hero-bg">
       <div className="landingOverlay" />
 
       <div className="heroWrap">
@@ -126,7 +126,6 @@ export default function LandingPage() {
           <div className="glassOuter heroLeft heroH">
             <div className="innerPad">
               <div className="glassInner h-full flex flex-col justify-center">
-                {/* ✅ Title with border */}
                 <h1 className="heroTitle titleFrame">Ballan Casri ah</h1>
 
                 <p className="heroNote">
@@ -146,7 +145,7 @@ export default function LandingPage() {
                     <ArrowRight size={16} className="btnArrow" />
                   </Link>
 
-                  <Link to="/track" className="btnPrimary btnGreen">
+                  <Link to="/track" className="btnPrimary btnBlueSoft">
                     <Search size={18} />
                     Track
                     <ArrowRight size={16} className="btnArrow" />
@@ -161,7 +160,6 @@ export default function LandingPage() {
             <div className="innerPad">
               <div className="glassInner h-full flex flex-col justify-between">
                 <div>
-                  {/* ✅ Title with border */}
                   <h2 className="heroTitleSmall titleFrame">Nidaam Hufan</h2>
 
                   <p className="heroNote">
@@ -171,8 +169,8 @@ export default function LandingPage() {
                   <div className="featureStack">
                     <div className="textFrame">
                       <div className="frameRow">
-                        <div className="iconBox sky">
-                          <Timer className="text-sky-100" size={20} />
+                        <div className="iconBox blue">
+                          <Timer className="text-slate-50" size={20} />
                         </div>
                         <div>
                           <p className="frameTitle">Waqti la qorsheeyey</p>
@@ -183,8 +181,8 @@ export default function LandingPage() {
 
                     <div className="textFrame">
                       <div className="frameRow">
-                        <div className="iconBox">
-                          <ShieldCheck className="text-emerald-100" size={20} />
+                        <div className="iconBox blue2">
+                          <ShieldCheck className="text-slate-50" size={20} />
                         </div>
 
                         <div>
@@ -205,8 +203,7 @@ export default function LandingPage() {
 
                 {/* CTA */}
                 <div className="ctaWrap">
-                  {/* ✅ Start Request WITHOUT white mini background */}
-                  <Link to="/book" className="btnPrimary btnGhost w-fit">
+                  <Link to="/services" className="btnPrimary btnOutline w-fit">
                     Start Request
                     <ArrowRight size={16} className="btnArrow" />
                   </Link>

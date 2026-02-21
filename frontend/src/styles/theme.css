@@ -1,0 +1,152 @@
+/* ==========================================
+   🔵 APPOINTIFY — BLUE ONLY DESIGN SYSTEM
+   Global tokens + reusable helpers
+========================================== */
+
+:root{
+  /* Brand */
+  --brand-500: #3b82f6;   /* Blue 500 */
+  --brand-600: #2563eb;   /* Blue 600 */
+  --brand-700: #1d4ed8;   /* Blue 700 */
+
+  /* Base (dark app) */
+  --bg-950: #020617;      /* Slate 950 */
+  --bg-900: #0b1220;      /* Deep */
+  --surface-900:#0f172a;  /* Slate 900 */
+  --surface-800:#1e293b;  /* Slate 800 */
+
+  /* Text */
+  --text-50:  #f8fafc;    /* Slate 50 */
+  --text-200: #e2e8f0;    /* Slate 200 */
+  --text-400: #94a3b8;    /* Slate 400 */
+
+  /* Borders */
+  --border-w: rgba(255,255,255,.10);
+  --border-s: rgba(255,255,255,.14);
+
+  /* Shadows */
+  --shadow-lg: 0 22px 55px rgba(0,0,0,.35);
+  --shadow-md: 0 14px 28px rgba(0,0,0,.24);
+
+  /* Radius */
+  --r-xl: 22px;
+  --r-lg: 16px;
+
+  /* Focus ring */
+  --focus: 0 0 0 3px rgba(59,130,246,.35);
+
+  /* Success (ONLY for status text/pill) */
+  --success: #10b981;
+}
+
+/* Container */
+.app-container{
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3.25rem 1.25rem;
+}
+@media (min-width: 768px){
+  .app-container{ padding: 4.25rem 1.5rem; }
+}
+
+/* Surfaces */
+.app-surface{
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border-w);
+  border-radius: var(--r-xl);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-md);
+}
+
+.app-card{
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--border-w);
+  border-radius: var(--r-xl);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-lg);
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.app-card:hover{
+  transform: translateY(-3px);
+  filter: brightness(1.02);
+  box-shadow: 0 28px 75px rgba(0,0,0,.40);
+}
+
+/* Subtle rim border */
+.app-rim{
+  padding: 1px;
+  border-radius: calc(var(--r-xl) + 1px);
+  background: linear-gradient(135deg, rgba(59,130,246,.35), rgba(255,255,255,.06));
+}
+
+/* Buttons */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  border-radius: 14px;
+  font-weight: 800;
+  padding: .7rem 1.1rem;
+  border: 1px solid transparent;
+  transition: transform .16s ease, filter .16s ease, background-color .16s ease, border-color .16s ease;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.btn:focus-visible{
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.btn:disabled{
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary{
+  background: linear-gradient(90deg, var(--brand-600), var(--brand-700));
+  color: #fff;
+  border-color: rgba(255,255,255,.10);
+  box-shadow: 0 18px 34px rgba(37,99,235,.22);
+}
+.btn-primary:hover{ transform: translateY(-2px); filter: brightness(1.06); }
+
+.btn-outline{
+  background: transparent;
+  color: var(--text-50);
+  border-color: rgba(59,130,246,.55);
+}
+.btn-outline:hover{
+  background: rgba(37,99,235,.14);
+  border-color: rgba(59,130,246,.70);
+}
+
+.btn-ghost{
+  background: rgba(255,255,255,.06);
+  color: var(--text-50);
+  border-color: rgba(255,255,255,.10);
+}
+.btn-ghost:hover{ background: rgba(255,255,255,.10); }
+
+/* Hero BG helper */
+.app-hero-bg{
+  background:
+    radial-gradient(900px 520px at 28% 32%, rgba(37,99,235,.16), rgba(2,6,23,.84)),
+    radial-gradient(700px 420px at 78% 68%, rgba(59,130,246,.12), rgba(2,6,23,.90)),
+    linear-gradient(180deg, rgba(2,6,23,.72), rgba(2,6,23,.92));
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .app-hero-anim{
+    background-size: 140% 140%;
+    animation: appBgMove 18s ease-in-out infinite;
+  }
+  @keyframes appBgMove{
+    0%,100%{ background-position: 0% 40%; }
+    50%{ background-position: 100% 60%; }
+  }
+}

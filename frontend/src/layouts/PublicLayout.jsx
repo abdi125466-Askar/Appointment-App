@@ -291,27 +291,30 @@ export default function PublicLayout() {
     "/services": bgServices,
     "/track": bgTrack,
     "/about": bgAbout,
+    "/privacy": bgAbout,
+    "/terms": bgAbout,
+    "/support": bgAbout,
+    "/unauthorized": bgAbout,
+    "/book": bgServices,
   };
 
   const currentBg = bgMap[pathname] || bgHome;
 
-  // ✅ White overlay
-  const overlayClass =
-    pathname === "/"
-      ? "bg-white/70 backdrop-blur-[2px]"
-      : "bg-white/60 backdrop-blur-[2px]";
-
   return (
     <div
-      className="relative min-h-screen flex flex-col overflow-hidden"
+      className="relative min-h-screen flex flex-col overflow-hidden bg-[#020617] text-slate-100"
       style={{
         backgroundImage: `url(${currentBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {/* White overlay */}
-      <div className={`absolute inset-0 pointer-events-none z-0 ${overlayClass}`} />
+      {/* Dark premium overlay */}
+      <div className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-b from-slate-950/85 via-slate-950/70 to-slate-950/90" />
+
+      {/* Soft vignette / glow */}
+      <div className="absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full bg-blue-600/10 blur-3xl pointer-events-none z-0" />
+      <div className="absolute -bottom-28 -left-28 w-[520px] h-[520px] rounded-full bg-blue-500/10 blur-3xl pointer-events-none z-0" />
 
       {/* Header */}
       <div className="relative z-10">
@@ -320,16 +323,16 @@ export default function PublicLayout() {
 
       {/* Content */}
       <main className="relative z-10 flex-1 min-h-0">
-        <div className="mx-auto w-full max-w-7xl px-3 sm:px-4 md:px-6">
+        <div className="mx-auto w-full max-w-7xl px-3 sm:px-4 md:px-6 py-10 sm:py-12">
           <Outlet />
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-slate-200/40">
-        <div className="bg-white/80 backdrop-blur-xl">
+      <footer className="relative z-10 border-t border-white/10">
+        <div className="bg-slate-950/70 backdrop-blur-xl">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-xs sm:text-sm font-semibold text-slate-600 text-center md:text-left">
+            <p className="text-xs sm:text-sm font-semibold text-slate-300 text-center md:text-left">
               © {new Date().getFullYear()} Appointify — Smart Booking System
             </p>
 
@@ -342,7 +345,9 @@ export default function PublicLayout() {
                 <Link
                   key={x.t}
                   to={x.to}
-                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-extrabold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 hover:text-blue-600 transition"
+                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold
+                             text-slate-200 bg-white/5 border border-white/10
+                             hover:bg-white/10 hover:text-blue-300 transition"
                 >
                   {x.t}
                 </Link>
