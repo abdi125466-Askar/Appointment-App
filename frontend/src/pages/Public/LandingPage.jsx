@@ -1,199 +1,156 @@
-// import { Link } from "react-router-dom";
-// import { CalendarDays, Search } from "lucide-react";
-// import hero from "../../assets/landing/hero.png";
-
-// export default function LandingPage() {
-//   return (
-//     <section className="relative h-[calc(100vh-80px)] w-full flex items-center justify-center overflow-hidden">
-
-//       {/* Soft overlay */}
-//       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-slate-800/40 to-emerald-900/30 pointer-events-none" />
-
-//       {/* Center Wrapper */}
-//       <div className="relative w-full max-w-7xl px-6 translate-y-3">
-//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-
-//           {/* LEFT BOX */}
-//           <div className="rounded-[32px] bg-gradient-to-br from-sky-500 via-blue-600 to-emerald-500
-//                           border border-white/20 backdrop-blur-2xl 
-//                           shadow-2xl p-8 md:p-10 h-[430px] flex flex-col justify-center">
-
-//             {/* Title */}
-//             <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
-//               Ballan Casri ah
-//             </h1>
-
-//             <h2 className="mt-2 text-2xl md:text-3xl font-bold text-white/90">
-//               Adeegyada Dowladda
-//             </h2>
-
-//             {/* Sub Text */}
-//             <p className="mt-5 text-white font-semibold text-base border border-black/30 
-//                           bg-black/20 rounded-xl px-4 py-2 backdrop-blur-md">
-//               Si ammaan ah u qabso ballan — la soco codsigaaga Tracking ID.
-//             </p>
-
-//             {/* FEATURE CHIPS */}
-//             <div className="mt-5 flex flex-wrap gap-3">
-
-//               {/* Ballan */}
-//               <span className="px-4 py-2 rounded-xl bg-sky-500/20 border border-sky-300/30 
-//                                text-sky-100 font-bold text-sm backdrop-blur-xl shadow-md">
-//                 ● Ballan
-//               </span>
-
-//               {/* Degdeg */}
-//               <span className="px-4 py-2 rounded-xl bg-amber-500/20 border border-amber-300/30 
-//                                text-amber-200 font-bold text-sm backdrop-blur-xl shadow-md">
-//                 ● Degdeg
-//               </span>
-
-//               {/* Ammaan */}
-//               <span className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-300/30 
-//                                text-emerald-200 font-bold text-sm backdrop-blur-xl shadow-md">
-//                 ● Ammaan
-//               </span>
-
-//               {/* La socod */}
-//               <span className="px-4 py-2 rounded-xl bg-indigo-500/20 border border-indigo-300/30 
-//                                text-indigo-200 font-bold text-sm backdrop-blur-xl shadow-md">
-//                 ● La socod
-//               </span>
-
-//             </div>
-
-//             {/* BUTTONS */}
-//             <div className="mt-7 flex gap-4">
-
-//               {/* Book */}
-//               <Link
-//                 to="/book"
-//                 className="flex items-center gap-2 px-6 py-3 rounded-xl 
-//                            bg-blue-700 hover:bg-blue-600
-//                            border border-black/40
-//                            text-white font-bold shadow-lg transition"
-//               >
-//                 <CalendarDays size={18} />
-//                 Book Appointment
-//               </Link>
-
-//               {/* Track */}
-//               <Link
-//                 to="/track"
-//                 className="flex items-center gap-2 px-6 py-3 rounded-xl 
-//                            bg-emerald-700 hover:bg-emerald-600
-//                            border border-black/40
-//                            text-white font-bold shadow-lg transition"
-//               >
-//                 <Search size={18} />
-//                 Track Appointment
-//               </Link>
-
-//             </div>
-//           </div>
-
-//           {/* RIGHT BOX */}
-//           <div className="rounded-[32px] bg-gradient-to-br from-emerald-600 via-teal-600 to-blue-600
-//                           border border-white/20 backdrop-blur-2xl 
-//                           shadow-2xl p-8 flex items-center justify-center h-[430px]">
-
-//             <img
-//               src={hero}
-//               alt="Appointment Illustration"
-//               className="w-[430px] md:w-[500px] object-contain drop-shadow-2xl"
-//             />
-
-//           </div>
-
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
 import { Link } from "react-router-dom";
-import { Search, FileText, ArrowRight, ShieldCheck, Timer } from "lucide-react";
-import "./landing.css";
+import {
+  Search,
+  FileText,
+  ArrowRight,
+  ShieldCheck,
+  Timer,
+} from "lucide-react";
 
 export default function LandingPage() {
   return (
-    <section className="landingHero app-hero-bg">
-      <div className="landingOverlay" />
+    <section
+      className="
+        relative flex items-center justify-center
+        min-h-[calc(100vh-80px-56px)]
+        lg:h-[calc(100vh-80px-56px)]
+        overflow-hidden
+        py-4 md:py-6
+      "
+    >
+      {/* BACKGROUND OVERLAY */}
+      <div
+        className="
+          absolute inset-0 z-0
+          bg-[radial-gradient(900px_520px_at_28%_32%,rgba(37,99,235,.16),rgba(2,6,23,.84)),
+              radial-gradient(700px_420px_at_78%_68%,rgba(59,130,246,.12),rgba(2,6,23,.90)),
+              linear-gradient(180deg,rgba(2,6,23,.65),rgba(2,6,23,.92))]
+        "
+      />
 
-      <div className="heroWrap">
-        <div className="heroGrid">
-          {/* LEFT BOX */}
-          <div className="glassOuter heroLeft heroH">
-            <div className="innerPad">
-              <div className="glassInner h-full flex flex-col justify-center">
-                <h1 className="heroTitle titleFrame">Ballan Casri ah</h1>
+      <div className="relative z-10 w-full max-w-7xl px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          
+          {/* ================= LEFT BOX ================= */}
+          <div className="rounded-[30px] p-[1px] bg-gradient-to-br from-blue-600/30 to-white/10 shadow-[0_28px_70px_rgba(0,0,0,.38)]">
+            <div className="rounded-[29px] bg-slate-950/30 backdrop-blur-xl p-5">
+              <div className="rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 flex flex-col justify-center h-full min-h-[430px]">
 
-                <p className="heroNote">
+                <h1 className="inline-block px-4 py-2 mb-3 text-white font-black text-4xl lg:text-5xl leading-tight rounded-xl border border-white/20 bg-white/5">
+                  Ballan Casri ah
+                </h1>
+
+                <p className="mb-4 px-3 py-2 rounded-lg border border-white/10 bg-white/5 text-white/90 font-bold">
                   Si fudud u qabso ballantaada — mar kasta la soco codsigaaga.
                 </p>
 
-                <div className="pillRow">
-                  <span className="pill">Degdeg</span>
-                  <span className="pill">Ammaan</span>
-                  <span className="pill">La socod</span>
+                {/* Pills */}
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {["Degdeg", "Ammaan", "La socod"].map((item) => (
+                    <span
+                      key={item}
+                      className="px-3 py-1 text-sm font-extrabold text-white/90 rounded-full border border-white/10 bg-white/5"
+                    >
+                      {item}
+                    </span>
+                  ))}
                 </div>
 
-                <div className="btnRow">
-                  <Link to="/services" className="btnPrimary btnBlue">
+                {/* Buttons */}
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    to="/services"
+                    className="
+                      flex items-center gap-2 px-5 py-3 rounded-xl font-extrabold text-white
+                      bg-gradient-to-r from-blue-600 to-blue-700
+                      border border-white/10
+                      shadow-lg hover:translate-y-[-2px] transition
+                    "
+                  >
                     <FileText size={18} />
                     Services
-                    <ArrowRight size={16} className="btnArrow" />
+                    <ArrowRight
+                      size={16}
+                      className="animate-[bounce_1.6s_infinite]"
+                    />
                   </Link>
 
-                  <Link to="/track" className="btnPrimary btnBlueSoft">
+                  <Link
+                    to="/track"
+                    className="
+                      flex items-center gap-2 px-5 py-3 rounded-xl font-extrabold text-white
+                      bg-blue-600/20 border border-white/10
+                      hover:translate-y-[-2px] transition
+                    "
+                  >
                     <Search size={18} />
                     Track
-                    <ArrowRight size={16} className="btnArrow" />
+                    <ArrowRight
+                      size={16}
+                      className="animate-[bounce_1.6s_infinite]"
+                    />
                   </Link>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT BOX */}
-          <div className="glassOuter heroRight heroH">
-            <div className="innerPad">
-              <div className="glassInner h-full flex flex-col justify-between">
-                <div>
-                  <h2 className="heroTitleSmall titleFrame">Nidaam Hufan</h2>
+          {/* ================= RIGHT BOX ================= */}
+          <div className="rounded-[30px] p-[1px] bg-gradient-to-br from-blue-500/30 to-white/10 shadow-[0_28px_70px_rgba(0,0,0,.38)]">
+            <div className="rounded-[29px] bg-slate-950/30 backdrop-blur-xl p-5">
+              <div className="rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 flex flex-col justify-between h-full min-h-[430px]">
 
-                  <p className="heroNote">
+                <div>
+                  <h2 className="inline-block px-4 py-2 mb-3 text-white font-black text-3xl rounded-xl border border-white/20 bg-white/5">
+                    Nidaam Hufan
+                  </h2>
+
+                  <p className="mb-4 px-3 py-2 rounded-lg border border-white/10 bg-white/5 text-white/90 font-bold">
                     Hal meel ku dhammee codsiga, jadwalka, iyo hubinta.
                   </p>
 
-                  <div className="featureStack">
-                    <div className="textFrame">
-                      <div className="frameRow">
-                        <div className="iconBox blue">
-                          <Timer className="text-slate-50" size={20} />
+                  {/* Feature 1 */}
+                  <div className="space-y-4 mt-4">
+                    <div className="p-4 rounded-xl border border-white/10 bg-white/5">
+                      <div className="flex gap-3">
+                        <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-blue-600/20 border border-blue-400/30">
+                          <Timer className="text-white" size={20} />
                         </div>
                         <div>
-                          <p className="frameTitle">Waqti la qorsheeyey</p>
-                          <p className="frameDesc">Jadwal cad, sugitaan yar.</p>
+                          <p className="font-black text-white">
+                            Waqti la qorsheeyey
+                          </p>
+                          <p className="text-sm text-slate-200">
+                            Jadwal cad, sugitaan yar.
+                          </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="textFrame">
-                      <div className="frameRow">
-                        <div className="iconBox blue2">
-                          <ShieldCheck className="text-slate-50" size={20} />
+                    {/* Feature 2 */}
+                    <div className="p-4 rounded-xl border border-white/10 bg-white/5">
+                      <div className="flex gap-3">
+                        <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-blue-500/20 border border-blue-300/30">
+                          <ShieldCheck className="text-white" size={20} />
                         </div>
 
                         <div>
-                          <p className="frameTitle">Xaalad Cad</p>
+                          <p className="font-black text-white mb-2">
+                            Xaalad Cad
+                          </p>
 
-                          <div className="statusRow">
-                            <span className="statusPill pending">Pending</span>
-                            <span className="statusArrow">→</span>
-                            <span className="statusPill approved">Approved</span>
-                            <span className="statusArrow">→</span>
-                            <span className="statusPill completed">Completed</span>
+                          <div className="flex flex-wrap items-center gap-2 text-sm font-extrabold">
+                            <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white">
+                              Pending
+                            </span>
+                            <span className="text-white/70">→</span>
+                            <span className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/40 text-blue-200">
+                              Approved
+                            </span>
+                            <span className="text-white/70">→</span>
+                            <span className="px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/40 text-indigo-200">
+                              Completed
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -202,12 +159,23 @@ export default function LandingPage() {
                 </div>
 
                 {/* CTA */}
-                <div className="ctaWrap">
-                  <Link to="/services" className="btnPrimary btnOutline w-fit">
+                <div className="mt-6">
+                  <Link
+                    to="/services"
+                    className="
+                      inline-flex items-center gap-2 px-5 py-3 rounded-xl font-extrabold
+                      border border-blue-400/50 text-white
+                      hover:translate-y-[-2px] transition
+                    "
+                  >
                     Start Request
-                    <ArrowRight size={16} className="btnArrow" />
+                    <ArrowRight
+                      size={16}
+                      className="animate-[bounce_1.6s_infinite]"
+                    />
                   </Link>
                 </div>
+
               </div>
             </div>
           </div>
