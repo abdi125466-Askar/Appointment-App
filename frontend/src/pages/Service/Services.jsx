@@ -89,7 +89,7 @@ export default function Services() {
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-in fade-in duration-700">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
@@ -98,7 +98,8 @@ export default function Services() {
               Management
             </span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+            <Layers className="text-indigo-600 w-8 h-8 md:w-10 md:h-10" />
             Service Catalog
           </h1>
           <p className="mt-2 text-gray-500 font-medium">
