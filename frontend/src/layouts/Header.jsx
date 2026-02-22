@@ -344,7 +344,7 @@ export default function Header({
       {/* RIGHT: Actions */}
       <div className="flex items-center gap-3 md:gap-6">
         {/* ✅ Search Bar (works on /dashboard/users) */}
-        <div className="hidden sm:flex items-center bg-slate-100/50 border border-slate-200 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all w-72">
+        {/* <div className="hidden sm:flex items-center bg-slate-100/50 border border-slate-200 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all w-72">
           <Search size={18} className="text-slate-400" />
 
           <input
@@ -373,7 +373,7 @@ export default function Header({
               <X size={16} />
             </button>
           )}
-        </div>
+        </div> */}
 
         {/* NOTIFICATIONS */}
         {isAdmin && (
