@@ -440,7 +440,7 @@ export default function PublicTrackPage() {
 
                   <p className="mt-2 text-xs text-slate-200/80 flex items-center gap-2">
                     <Info size={14} className="opacity-80" />
-                    Appointment ID waa 24-character (Mongo ObjectId).
+                    Appointment ID waa 24-character (Fadlan Ilaasho).
                   </p>
 
                   {/* Saved ID Actions */}

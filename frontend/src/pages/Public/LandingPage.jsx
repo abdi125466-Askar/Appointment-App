@@ -90,10 +90,8 @@ import { Search, FileText, ArrowRight } from "lucide-react";
 export default function LandingPage() {
   return (
     <section className="relative min-h-[calc(100vh-80px)] flex items-center justify-center px-4 sm:px-6 bg-transparent overflow-hidden">
-      
       {/* Container - Slightly lifted upward for perfect center balance */}
       <div className="relative z-10 w-full max-w-5xl text-center -mt-10 sm:-mt-14 md:-mt-16">
-
         {/* Hero Panel (only background area) */}
         <div
           className="
@@ -113,7 +111,7 @@ export default function LandingPage() {
 
           {/* Title */}
           <h1 className="title-message text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#F8FAFC] tracking-tight">
-            KA QABSO BALANTAADA HALKAN
+            BOOK YOUR APPOINTMENT HERE
           </h1>
 
           {/* Subtitle */}
@@ -129,13 +127,12 @@ export default function LandingPage() {
                 max-w-2xl
               "
             >
-              Si fudud u qabso ballantaada, lana soco dhaqdhaqaaqa codsigaaga.
+              Easily book your appointment and track your request status.
             </p>
           </div>
 
           {/* Buttons */}
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center">
-
             {/* Services */}
             <Link
               to="/services"
@@ -152,7 +149,7 @@ export default function LandingPage() {
             >
               <span className="pointer-events-none absolute -inset-[1px] rounded-2xl border border-white/25" />
               <FileText size={18} />
-              Services
+              View Services
               <ArrowRight
                 size={18}
                 className="arrow-float transition-transform duration-300 group-hover:translate-x-1"
@@ -176,7 +173,7 @@ export default function LandingPage() {
             >
               <span className="pointer-events-none absolute -inset-[1px] rounded-2xl border border-white/25" />
               <Search size={18} />
-              Track
+              Track Appointment
               <ArrowRight
                 size={18}
                 className="arrow-float transition-transform duration-300 group-hover:translate-x-1"
@@ -186,11 +183,14 @@ export default function LandingPage() {
 
           {/* Tracking & Status */}
           <div className="mt-7 sm:mt-8 flex flex-wrap justify-center gap-3">
-
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 border border-white/12 backdrop-blur-md">
               <span className="h-2 w-2 rounded-full bg-[#3B82F6]" />
-              <span className="text-xs text-[#94A3B8] font-semibold">Tracking ID</span>
-              <span className="text-xs text-[#F8FAFC] font-bold">APP-2026-001</span>
+              <span className="text-xs text-[#94A3B8] font-semibold">
+                Tracking ID
+              </span>
+              <span className="text-xs text-[#F8FAFC] font-bold">
+                APP-2026-001
+              </span>
             </div>
 
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 border border-white/12 backdrop-blur-md flex-wrap justify-center">
