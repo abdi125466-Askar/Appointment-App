@@ -18,15 +18,17 @@
 const express = require("express");
 const router = express.Router();
 
+// ✅ Correct path from: src/routes/dashboard/dashboardRoutes.js
+// to: src/controller/Dashboard/appointmentDashboard.controller.js
 const {
   getCounts,
   getLatestUpdates,
 } = require("../../controller/Dashboard/appointmentDashboard.controller");
 
-// Counts for badges
+// Counts for sidebar badges
 router.get("/counts", getCounts);
 
-// Latest updates list
+// Latest updates list (bell dropdown)
 router.get("/updates", getLatestUpdates);
 
 module.exports = router;

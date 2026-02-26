@@ -1,4 +1,5 @@
 
+
 // const Appointment = require("../../model/Appointment");
 
 // /* =========================================================
@@ -113,7 +114,7 @@
 //       let desc = "The appointment status has been updated.";
 //       let to = "/dashboard";
 
-//       switch (a.status) {
+//       switch ((a.status || "").toUpperCase()) {
 //         case "PENDING":
 //           title = "New Appointment Submitted";
 //           desc = `A new request from ${customer} for ${service} is awaiting review.`;
@@ -141,7 +142,7 @@
 //         case "NO_SHOW":
 //           title = "Customer Did Not Attend";
 //           desc = `${customer} did not attend the scheduled appointment.`;
-//           to = "/dashboard";
+//           to = "/dashboard/approved-appointments";
 //           break;
 
 //         case "CANCELLED":
@@ -156,7 +157,7 @@
 
 //       return {
 //         id: a._id,
-//         status: a.status,
+//         status: (a.status || "").toUpperCase(),
 //         title,
 //         desc,
 //         time: a.updatedAt || a.createdAt,
@@ -174,16 +175,13 @@
 // };
 
 
-
-
-
 const Appointment = require("../../model/Appointment");
 
 /* =========================================================
    DASHBOARD SUMMARY
    GET /api/appointments/dashboard
 ========================================================= */
-exports.getAppointmentDashboard = async (req, res) => {
+const getAppointmentDashboard = async (req, res) => {
   try {
     const [
       total,
@@ -227,14 +225,7 @@ exports.getAppointmentDashboard = async (req, res) => {
       success: true,
       data: {
         totals: { total, todayRequests },
-        byStatus: {
-          pending,
-          approved,
-          completed,
-          rejected,
-          cancelled,
-          noShow,
-        },
+        byStatus: { pending, approved, completed, rejected, cancelled, noShow },
         lastActivities,
       },
     });
@@ -250,7 +241,7 @@ exports.getAppointmentDashboard = async (req, res) => {
    COUNTS (Sidebar Badges)
    GET /api/dashboard/counts
 ========================================================= */
-exports.getCounts = async (req, res) => {
+const getCounts = async (req, res) => {
   try {
     const [pending, approved, completed] = await Promise.all([
       Appointment.countDocuments({ status: "PENDING" }),
@@ -271,10 +262,10 @@ exports.getCounts = async (req, res) => {
 };
 
 /* =========================================================
-   PROFESSIONAL LATEST UPDATES
+   LATEST UPDATES
    GET /api/dashboard/updates
 ========================================================= */
-exports.getLatestUpdates = async (req, res) => {
+const getLatestUpdates = async (req, res) => {
   try {
     const latest = await Appointment.find()
       .sort({ updatedAt: -1 })
@@ -349,4 +340,11 @@ exports.getLatestUpdates = async (req, res) => {
       message: error.message || "Failed to load updates",
     });
   }
+};
+
+// ✅ IMPORTANT: hal style oo exports ah (kan ayaa kaa badbaadinaya undefined)
+module.exports = {
+  getAppointmentDashboard,
+  getCounts,
+  getLatestUpdates,
 };

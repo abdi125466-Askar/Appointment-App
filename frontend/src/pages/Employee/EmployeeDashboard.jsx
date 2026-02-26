@@ -589,7 +589,7 @@ export default function EmployeeDashboard() {
             <select
               value={month}
               onChange={(e) => setMonth(Number(e.target.value))}
-              className="px-4 py-2 border border-slate-200 rounded-xl bg-white text-xs font-bold shadow-sm"
+              className="px-4 py-2 border border-slate-200 rounded-xl bg-white text-xs text-slate-500 font-bold shadow-sm"
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <option key={i} value={i + 1}>
@@ -601,7 +601,7 @@ export default function EmployeeDashboard() {
             <select
               value={year}
               onChange={(e) => setYear(Number(e.target.value))}
-              className="px-4 py-2 border border-slate-200 rounded-xl bg-white text-xs font-bold shadow-sm"
+              className="px-4 py-2 border border-slate-200 rounded-xl bg-white text-xs text-slate-500 font-bold shadow-sm"
             >
               {[2024, 2025, 2026].map((y) => (
                 <option key={y} value={y}>

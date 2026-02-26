@@ -115,7 +115,7 @@ export default function CreateAppointment() {
                   setShowCustomerList(true);
                 }}
                 onFocus={() => setShowCustomerList(true)}
-                className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all font-medium text-sm"
+                className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border text-slate-500 border-slate-100 rounded-2xl outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all font-medium text-sm"
               />
 
               {showCustomerList && searchCustomer.length >= 2 && (

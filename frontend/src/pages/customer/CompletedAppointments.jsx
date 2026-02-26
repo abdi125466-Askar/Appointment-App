@@ -279,7 +279,7 @@ export default function CompletedAppointments() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search customer, phone, service..."
-                className="w-[260px] pl-9 pr-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-semibold outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-[260px] pl-9 pr-4 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-500 font-semibold outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>

@@ -43,15 +43,14 @@ export default function Users() {
     status: "PENDING",
   });
 
-  // ✅ Fetch users whenever search changes (from Header)
+  // ✅ Fetch users whenever search changes
   useEffect(() => {
     dispatch(fetchUsers({ search }));
   }, [dispatch, search]);
 
   const statusBadge = useMemo(
     () => ({
-      APPROVED:
-        "text-emerald-700 bg-emerald-50 border-emerald-200 ring-emerald-100",
+      APPROVED: "text-emerald-700 bg-emerald-50 border-emerald-200 ring-emerald-100",
       PENDING: "text-amber-700 bg-amber-50 border-amber-200 ring-amber-100",
       REJECTED: "text-rose-700 bg-rose-50 border-rose-200 ring-rose-100",
       DISABLED: "text-slate-500 bg-slate-50 border-slate-200 ring-slate-100",
@@ -120,7 +119,7 @@ export default function Users() {
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-in fade-in duration-500">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm shadow-gray-200/50">
         <div className="flex items-center gap-5">
@@ -128,14 +127,13 @@ export default function Users() {
             <UserCheck size={28} />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
               Access Management
-            </h2>
+            </h1>
             <p className="text-gray-500 font-medium text-sm mt-1">
               Configure team roles, system permissions, and account status.
             </p>
 
-            {/* ✅ nice small text showing active search */}
             {search && (
               <p className="mt-2 text-xs font-bold text-indigo-600">
                 Searching: <span className="text-gray-700">{search}</span>
@@ -168,7 +166,6 @@ export default function Users() {
             key={u._id}
             className="group relative bg-white border border-gray-200/60 rounded-[2.5rem] p-7 hover:shadow-2xl hover:shadow-indigo-100/40 hover:border-indigo-200 transition-all duration-300 flex flex-col"
           >
-            {/* CARD HEADER: ROLE & STATUS */}
             <div className="flex justify-between items-start mb-6">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 border border-gray-200">
                 <Shield size={10} className="text-gray-400" />
@@ -184,7 +181,6 @@ export default function Users() {
               </span>
             </div>
 
-            {/* CARD BODY: AVATAR & INFO */}
             <div className="flex flex-col items-center text-center flex-1 mb-8">
               <div className="relative w-24 h-24 mb-4">
                 <div className="absolute inset-0 bg-indigo-500/5 rounded-3xl blur-md group-hover:bg-indigo-500/10 transition-all"></div>
@@ -203,7 +199,6 @@ export default function Users() {
               </div>
             </div>
 
-            {/* CARD FOOTER: ACTIONS */}
             <div className="pt-6 border-t border-gray-50 grid grid-cols-3 gap-2">
               <button
                 onClick={() => openEdit(u)}

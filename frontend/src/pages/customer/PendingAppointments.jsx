@@ -424,7 +424,7 @@ export default function PendingAppointments() {
                 {/* ASSIGN + ACTIONS */}
                 <div className="flex gap-2">
                   <select
-                    className="px-3 py-2 rounded-xl text-xs font-bold bg-slate-50"
+                    className="px-3 py-2 rounded-xl text-xs font-bold text-slate-500 bg-slate-50"
                     value={selectedUser[a._id] || ""}
                     onChange={(e) =>
                       setSelectedUser((prev) => ({

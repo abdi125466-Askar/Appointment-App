@@ -1,118 +1,12 @@
-// import { NavLink, Link } from "react-router-dom";
-// import { Bell, Menu, X } from "lucide-react";
-// import { useEffect, useState } from "react";
-
-// const navClass = ({ isActive }) =>
-//   `px-3 py-2 rounded-lg text-sm font-bold transition ${
-//     isActive ? "text-emerald-400" : "text-slate-200 hover:text-white"
-//   }`;
-
-// export default function PublicHeader() {
-//   const [open, setOpen] = useState(false);
-
-//   // close menu on resize to desktop
-//   useEffect(() => {
-//     const onResize = () => {
-//       if (window.innerWidth >= 768) setOpen(false);
-//     };
-//     window.addEventListener("resize", onResize);
-//     return () => window.removeEventListener("resize", onResize);
-//   }, []);
-
-//   return (
-//     <header className="sticky top-0 z-50 border-b border-white/10">
-//       <div className="bg-gradient-to-r from-slate-950 via-slate-900/95 to-emerald-950/80 backdrop-blur-xl">
-//         <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
-//           <Link to="/" className="flex items-center gap-2 min-w-0">
-//             <img
-//               src="/logo.png"
-//               alt="Appointify"
-//               className="h-16 sm:h-45 w-auto object-contain"
-//             />
-//           </Link>
-
-//           {/* Desktop nav */}
-//           <nav className="hidden md:flex items-center gap-4">
-//             <NavLink to="/" className={navClass}>
-//               Home
-//             </NavLink>
-//             <NavLink to="/services" className={navClass}>
-//               Services
-//             </NavLink>
-//             <NavLink to="/track" className={navClass}>
-//               Track
-//             </NavLink>
-//             <NavLink to="/about" className={navClass}>
-//               About
-//             </NavLink>
-//           </nav>
-
-//           <div className="flex items-center gap-2 sm:gap-3">
-//             <button className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-//               <Bell className="text-slate-200" size={20} />
-//             </button>
-
-//             <Link
-//               to="/login"
-//               className="hidden sm:inline-flex px-4 sm:px-5 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-emerald-600 shadow-lg shadow-emerald-600/15 hover:brightness-110 transition"
-//             >
-//               Admin Login
-//             </Link>
-
-//             {/* Mobile hamburger */}
-//             <button
-//               type="button"
-//               className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition"
-//               onClick={() => setOpen((v) => !v)}
-//               aria-label="Toggle menu"
-//             >
-//               {open ? <X className="text-slate-200" size={22} /> : <Menu className="text-slate-200" size={22} />}
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Mobile menu */}
-//         {open && (
-//           <div className="md:hidden border-t border-white/10">
-//             <div className="px-4 py-3 flex flex-col gap-2">
-//               <NavLink to="/" className={navClass} onClick={() => setOpen(false)}>
-//                 Home
-//               </NavLink>
-//               <NavLink to="/services" className={navClass} onClick={() => setOpen(false)}>
-//                 Services
-//               </NavLink>
-//               <NavLink to="/track" className={navClass} onClick={() => setOpen(false)}>
-//                 Track
-//               </NavLink>
-//               <NavLink to="/about" className={navClass} onClick={() => setOpen(false)}>
-//                 About
-//               </NavLink>
-
-//               <Link
-//                 to="/login"
-//                 onClick={() => setOpen(false)}
-//                 className="mt-2 inline-flex items-center justify-center px-4 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-emerald-600 shadow-lg shadow-emerald-600/15 hover:brightness-110 transition"
-//               >
-//                 Admin Login
-//               </Link>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </header>
-//   );
-// }
-
-
 import { NavLink, Link } from "react-router-dom";
-import { Bell, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const navClass = ({ isActive }) =>
-  `px-3 py-2 rounded-lg text-sm font-semibold transition ${
+  `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ease-out ${
     isActive
-      ? "text-blue-300 bg-white/5"
-      : "text-slate-200 hover:text-white hover:bg-white/5"
+      ? "text-[#3B82F6] bg-[#2563EB]/10 border border-[#2563EB]/20"
+      : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/5 border border-transparent"
   }`;
 
 export default function PublicHeader() {
@@ -127,50 +21,56 @@ export default function PublicHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10">
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900/95 to-slate-950 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-50 h-20 border-b border-white/10">
+      <div className="h-20 bg-[#0F172A]/70 backdrop-blur-xl">
+        <div className="mx-auto max-w-6xl px-6 h-20 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2 min-w-0">
             <img
               src="/logo.png"
               alt="Appointify"
-              className="h-10 sm:h-12 w-auto object-contain"
+              className="h-45 w-auto object-contain"
             />
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-2">
-            <NavLink to="/" className={navClass}>Home</NavLink>
-            <NavLink to="/services" className={navClass}>Services</NavLink>
-            <NavLink to="/track" className={navClass}>Track</NavLink>
-            <NavLink to="/about" className={navClass}>About</NavLink>
+            <NavLink to="/" className={navClass}>
+              Home
+            </NavLink>
+            <NavLink to="/services" className={navClass}>
+              Services
+            </NavLink>
+            <NavLink to="/track" className={navClass}>
+              Track
+            </NavLink>
+            <NavLink to="/about" className={navClass}>
+              About
+            </NavLink>
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* <button
-              type="button"
-              className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition"
-              aria-label="Notifications"
-            >
-              <Bell className="text-slate-200" size={20} />
-            </button> */}
-
+          <div className="flex items-center gap-2">
             <Link
               to="/login"
-              className="hidden sm:inline-flex items-center justify-center px-4 sm:px-5 py-2 rounded-xl font-semibold text-white
-                         bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-600/20
-                         hover:brightness-110 transition"
+              className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-2xl font-semibold text-white
+                         bg-[#2563EB] hover:bg-[#1D4ED8]
+                         shadow-xl shadow-[#2563EB]/20
+                         transition-all duration-300 ease-out hover:scale-[1.03]
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82F6]"
             >
               Login
             </Link>
 
             <button
               type="button"
-              className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition"
+              className="md:hidden p-2 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300"
               onClick={() => setOpen((v) => !v)}
               aria-label="Toggle menu"
             >
-              {open ? <X className="text-slate-200" size={22} /> : <Menu className="text-slate-200" size={22} />}
+              {open ? (
+                <X className="text-[#F8FAFC]" size={22} />
+              ) : (
+                <Menu className="text-[#F8FAFC]" size={22} />
+              )}
             </button>
           </div>
         </div>
@@ -178,18 +78,39 @@ export default function PublicHeader() {
         {/* Mobile menu */}
         {open && (
           <div className="md:hidden border-t border-white/10">
-            <div className="px-4 py-3 flex flex-col gap-2">
-              <NavLink to="/" className={navClass} onClick={() => setOpen(false)}>Home</NavLink>
-              <NavLink to="/services" className={navClass} onClick={() => setOpen(false)}>Services</NavLink>
-              <NavLink to="/track" className={navClass} onClick={() => setOpen(false)}>Track</NavLink>
-              <NavLink to="/about" className={navClass} onClick={() => setOpen(false)}>About</NavLink>
+            <div className="px-6 py-4 flex flex-col gap-2">
+              <NavLink to="/" className={navClass} onClick={() => setOpen(false)}>
+                Home
+              </NavLink>
+              <NavLink
+                to="/services"
+                className={navClass}
+                onClick={() => setOpen(false)}
+              >
+                Services
+              </NavLink>
+              <NavLink
+                to="/track"
+                className={navClass}
+                onClick={() => setOpen(false)}
+              >
+                Track
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={navClass}
+                onClick={() => setOpen(false)}
+              >
+                About
+              </NavLink>
 
               <Link
                 to="/login"
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center px-4 py-2 rounded-xl font-semibold text-white
-                           bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-600/20
-                           hover:brightness-110 transition"
+                className="mt-3 inline-flex items-center justify-center h-11 px-4 rounded-2xl font-semibold text-white
+                           bg-[#2563EB] hover:bg-[#1D4ED8] shadow-xl shadow-[#2563EB]/20
+                           transition-all duration-300 ease-out hover:scale-[1.03]
+                           focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82F6]"
               >
                 Admin Login
               </Link>
