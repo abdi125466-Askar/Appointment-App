@@ -272,19 +272,29 @@ import { fetchUsers } from "../../Redux/slices/userSlices/userSlice";
 /* ===============================
    PDF OPEN HELPER
 ================================ */
+// const openPdf = (appointment) => {
+//   if (!appointment?.documents?.length) {
+//     alert("No PDF uploaded for this request");
+//     return;
+//   }
+
+//   window.open(
+//     appointment.documents[0].url,
+//     "_blank",
+//     "noopener,noreferrer"
+//   );
+// };
 const openPdf = (appointment) => {
+  console.log("PDF OBJECT:", appointment.documents);
+  console.log("PDF URL:", appointment?.documents?.[0]?.url);
+
   if (!appointment?.documents?.length) {
     alert("No PDF uploaded for this request");
     return;
   }
 
-  window.open(
-    appointment.documents[0].url,
-    "_blank",
-    "noopener,noreferrer"
-  );
+  window.open(appointment.documents[0].url, "_blank");
 };
-
 export default function PendingAppointments() {
   const dispatch = useDispatch();
 

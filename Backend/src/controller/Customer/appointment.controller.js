@@ -96,6 +96,37 @@ exports.createAppointment = async (req, res) => {
 /* =========================
    GET PENDING APPOINTMENTS
 ========================= */
+// exports.getAppointments = async (req, res) => {
+//   try {
+//     const appointments = await Appointment.find({ status: "PENDING" })
+//       .populate("customerId", "fullName phone")
+//       .populate("serviceId", "name code")
+//       .sort({ appointmentDate: -1 })
+//       .lean(); // 👈 IMPORTANT (allows mutation)
+
+// const baseUrl =
+//   process.env.BACKEND_URL ||
+//   `${req.protocol}://${req.get("host")}`;
+
+//     const data = appointments.map((a) => ({
+//       ...a,
+//       documents: (a.documents || []).map((doc) => ({
+//         ...doc,
+//       url: `${baseUrl}/uploads/appointments/${doc.filename}`,
+//       })),
+//     }));
+
+//     return res.json({
+//       success: true,
+//       data,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: error.message || "Failed to fetch appointments",
+//     });
+//   }
+// };
 exports.getAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find({ status: "PENDING" })
@@ -104,34 +135,80 @@ exports.getAppointments = async (req, res) => {
       .sort({ appointmentDate: -1 })
       .lean(); // 👈 IMPORTANT (allows mutation)
 
-    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    // 🔹 Build base URL dynamically
+    const baseUrl =
+      process.env.BACKEND_URL ||
+      `${req.protocol}://${req.get("host")}`;
 
-    const data = appointments.map((a) => ({
-      ...a,
-      documents: (a.documents || []).map((doc) => ({
-        ...doc,
-        url: `${baseUrl}/api/uploads/appointments/${doc.filename}`,
-      })),
+    // 🔹 Attach URL to each document
+    const data = appointments.map((appointment) => ({
+      ...appointment,
+      documents: Array.isArray(appointment.documents)
+        ? appointment.documents.map((doc) => ({
+            ...doc,
+            url: `${baseUrl}/uploads/appointments/${doc.filename}`,
+          }))
+        : [],
     }));
 
-    return res.json({
+    return res.status(200).json({
       success: true,
+      count: data.length,
       data,
     });
+
   } catch (error) {
+    console.error("GET APPOINTMENTS ERROR:", error);
+
     return res.status(500).json({
       success: false,
       message: error.message || "Failed to fetch appointments",
     });
   }
 };
+// exports.getAppointmentsByStatus = async (req, res) => {
+//   try {
+//     const { status } = req.query;
 
+//     // ✅ include NO_SHOW
+//     const allowedStatuses = ["PENDING", "APPROVED", "COMPLETED", "REJECTED", "NO_SHOW"];
+
+//     if (!allowedStatuses.includes(status)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: `Invalid status. Allowed: ${allowedStatuses.join(", ")}`,
+//       });
+//     }
+
+//     const appointments = await Appointment.find({ status })
+//       .populate("customerId", "fullName phone")
+//       .populate("serviceId", "name code")
+//       .populate("assignedUserId", "fullName email role")
+//       .sort({ appointmentDate: -1 });
+
+//     return res.json({
+//       success: true,
+//       count: appointments.length,
+//       data: appointments,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: error.message || "Failed to fetch appointments",
+//     });
+//   }
+// };
 exports.getAppointmentsByStatus = async (req, res) => {
   try {
     const { status } = req.query;
 
-    // ✅ include NO_SHOW
-    const allowedStatuses = ["PENDING", "APPROVED", "COMPLETED", "REJECTED", "NO_SHOW"];
+    const allowedStatuses = [
+      "PENDING",
+      "APPROVED",
+      "COMPLETED",
+      "REJECTED",
+      "NO_SHOW",
+    ];
 
     if (!allowedStatuses.includes(status)) {
       return res.status(400).json({
@@ -140,25 +217,45 @@ exports.getAppointmentsByStatus = async (req, res) => {
       });
     }
 
+    // 👇 VERY IMPORTANT: use .lean()
     const appointments = await Appointment.find({ status })
       .populate("customerId", "fullName phone")
       .populate("serviceId", "name code")
       .populate("assignedUserId", "fullName email role")
-      .sort({ appointmentDate: -1 });
+      .sort({ appointmentDate: -1 })
+      .lean();
 
-    return res.json({
+    // 👇 Build base URL dynamically
+    const baseUrl =
+      process.env.BACKEND_URL ||
+      `${req.protocol}://${req.get("host")}`;
+
+    // 👇 Attach PDF URL
+    const data = appointments.map((appointment) => ({
+      ...appointment,
+      documents: Array.isArray(appointment.documents)
+        ? appointment.documents.map((doc) => ({
+            ...doc,
+            url: `${baseUrl}/uploads/appointments/${doc.filename}`,
+          }))
+        : [],
+    }));
+
+    return res.status(200).json({
       success: true,
-      count: appointments.length,
-      data: appointments,
+      count: data.length,
+      data,
     });
+
   } catch (error) {
+    console.error("GET APPOINTMENTS BY STATUS ERROR:", error);
+
     return res.status(500).json({
       success: false,
       message: error.message || "Failed to fetch appointments",
     });
   }
 };
-
 /* =========================
    GET APPOINTMENT BY ID
 ========================= */

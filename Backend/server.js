@@ -22,6 +22,7 @@ const publicAppionts= require("./src/routes/Public/public.routes");
 const dashboardRoutes = require("./src/routes/dashboard/dashboardRoutes");
 
 const app = express();
+app.set("trust proxy", 1);
 
 /* =========================
    CORS CONFIG

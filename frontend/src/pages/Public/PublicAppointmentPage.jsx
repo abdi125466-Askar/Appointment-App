@@ -196,10 +196,13 @@ export default function PublicAppointmentPage() {
     formData.append("appointmentDate", appointmentDate);
 
     // ✅ multer field mismatch safe
+    // if (file) {
+    //   formData.append("file", file);
+    //   formData.append("document", file);
+    // }
     if (file) {
-      formData.append("file", file);
-      formData.append("document", file);
-    }
+  formData.append("file", file);   // ✅ ONLY THIS
+}
 
     const resAction = await dispatch(createPublicAppointment(formData));
 
@@ -503,10 +506,7 @@ export default function PublicAppointmentPage() {
                       </div>
                     )}
 
-                    <p className="text-xs mt-2 text-emerald-700/90 font-semibold">
-                      (Option 1) Tracking ID-ga si automatic ah ayuu u kaydsan yahay — marka aad gasho Track page, wuu kuu muuqan doonaa.
-                    </p>
-                  </div>
+                                  </div>
                 </div>
               )}
             </div>
