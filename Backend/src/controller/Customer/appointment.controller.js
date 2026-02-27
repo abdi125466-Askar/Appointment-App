@@ -112,7 +112,7 @@ const baseUrl =
       ...a,
       documents: (a.documents || []).map((doc) => ({
         ...doc,
-        url: `${baseUrl}/api/uploads/appointments/${doc.filename}`,
+      url: `${baseUrl}/uploads/appointments/${doc.filename}`,
       })),
     }));
 
