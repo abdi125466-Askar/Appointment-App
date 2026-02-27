@@ -196,10 +196,13 @@ export default function PublicAppointmentPage() {
     formData.append("appointmentDate", appointmentDate);
 
     // ✅ multer field mismatch safe
+    // if (file) {
+    //   formData.append("file", file);
+    //   formData.append("document", file);
+    // }
     if (file) {
-      formData.append("file", file);
-      formData.append("document", file);
-    }
+  formData.append("file", file);   // ✅ ONLY THIS
+}
 
     const resAction = await dispatch(createPublicAppointment(formData));
 
