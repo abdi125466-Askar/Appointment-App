@@ -17,185 +17,92 @@ export default function PublicServicesPage() {
   }, [dispatch]);
 
   return (
-    <section className="relative px-4 md:px-10 py-10 overflow-hidden">
-      {/* subtle blue-only glows */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_18%_28%,rgba(37,99,235,.14),transparent_55%)]" />
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_82%_72%,rgba(59,130,246,.10),transparent_55%)]" />
+    <section className="bg-gradient-to-br from-white to-blue-50 px-6 lg:px-20 py-16">
 
       {/* HEADER */}
-      <div className="relative text-center mb-8">
-        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-[#0F172A]/75 backdrop-blur-xl border border-white/15 shadow-xl">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#F8FAFC] tracking-tight">
-            Services
-          </h1>
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700">
+          Our Services
+        </h1>
 
-          <span className="ml-1 inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold bg-white/5 border border-white/10 text-[#94A3B8]">
-            Active: {Array.isArray(services) ? services.length : 0}
-          </span>
-        </div>
+        <p className="mt-4 text-gray-600 text-lg max-w-2xl mx-auto">
+          Choose the service you need and proceed to submit your request
+          quickly and efficiently.
+        </p>
 
-        <div className="mt-4 flex justify-center">
-          <p className="max-w-2xl px-5 py-3 rounded-2xl bg-[#0F172A]/70 backdrop-blur-xl border border-white/10 shadow-lg text-[#94A3B8] font-semibold text-sm sm:text-base leading-relaxed">
-            Dooro adeegga aad u baahan tahay, kadib si fudud ugu gudub foomka
-            codsiga.
-          </p>
+        <div className="mt-4 inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm">
+          Active Services: {Array.isArray(services) ? services.length : 0}
         </div>
       </div>
 
       {/* LOADING */}
       {servicesLoading && (
-        <div className="relative max-w-xl mx-auto">
-          <div className="rounded-2xl bg-[#0F172A]/70 border border-white/10 backdrop-blur-xl p-6 text-center shadow-xl">
-            <p className="text-[#F8FAFC] font-extrabold text-base">
-              Loading services...
-            </p>
-            <p className="mt-2 text-[#94A3B8] text-sm font-semibold">
-              Please wait while we fetch active services.
-            </p>
-          </div>
+        <div className="max-w-xl mx-auto bg-white border border-blue-100 rounded-2xl p-8 shadow-lg text-center">
+          <p className="text-blue-700 font-bold text-lg">
+            Loading services...
+          </p>
+          <p className="mt-2 text-gray-500">
+            Please wait while we fetch available services.
+          </p>
         </div>
       )}
 
       {/* ERROR */}
       {error && (
-        <div className="relative max-w-xl mx-auto bg-red-500/10 border border-red-500/35 text-red-300 p-5 rounded-2xl text-center font-semibold shadow-xl">
+        <div className="max-w-xl mx-auto bg-red-50 border border-red-200 text-red-600 p-6 rounded-2xl text-center font-semibold shadow-md">
           {error}
         </div>
       )}
 
-      {/* GRID */}
+      {/* SERVICES GRID */}
       {!servicesLoading && !error && (
-        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
           {services.map((service) => (
             <div
               key={service._id}
-              className="
-                pulse-card group relative rounded-2xl
-                bg-[#0F172A]/65 backdrop-blur-xl
-                border border-white/10
-                shadow-xl
-                transition-all duration-300 ease-out
-                hover:-translate-y-2
-              "
+              className="group bg-white rounded-3xl border border-blue-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
             >
-              {/* corner accents */}
-              <span className="pointer-events-none absolute -top-[1px] -left-[1px] h-8 w-8 border-t border-l border-white/20 rounded-tl-2xl opacity-70" />
-              <span className="pointer-events-none absolute -top-[1px] -right-[1px] h-8 w-8 border-t border-r border-white/20 rounded-tr-2xl opacity-70" />
-              <span className="pointer-events-none absolute -bottom-[1px] -left-[1px] h-8 w-8 border-b border-l border-white/20 rounded-bl-2xl opacity-70" />
-              <span className="pointer-events-none absolute -bottom-[1px] -right-[1px] h-8 w-8 border-b border-r border-white/20 rounded-br-2xl opacity-70" />
+              <div className="p-8 flex flex-col h-full">
 
-              <div className="p-5 flex flex-col h-full">
-                {/* TOP */}
-                <div className="flex items-start justify-between gap-4">
-                  {/* ✅ Title badge: subtle WHITE pulse */}
-                  <div className="pulse-white inline-flex items-center rounded-2xl bg-[#020617]/55 border border-white/15 px-4 py-3">
-                    <h3
-                      className="
-                        text-[14px] sm:text-[15px]
-                        font-extrabold text-[#F8FAFC]
-                        leading-snug tracking-tight
-                        max-w-[200px]
-                      "
-                      style={{ wordBreak: "break-word" }}
-                    >
-                      {service.name}
-                    </h3>
-                  </div>
+                {/* TITLE */}
+                <h3 className="text-xl font-bold text-blue-700 mb-4">
+                  {service.name}
+                </h3>
 
-                  {/* ✅ Apply: subtle WHITE pulse */}
-                  <button
-                    onClick={() => navigate(`/book?serviceId=${service._id}`)}
-                    className="
-                      pulse-white relative inline-flex items-center gap-2
-                      h-10 px-5 rounded-2xl
-                      bg-[#2563EB] hover:bg-[#1D4ED8]
-                      text-white text-sm font-extrabold
-                      shadow-xl shadow-[#2563EB]/25
-                      transition-all duration-300 ease-out
-                      hover:scale-[1.03]
-                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82F6]
-                    "
-                  >
-                    Apply
-                    <ArrowRight
-                      size={16}
-                      className="arrow-float transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </button>
-                </div>
-
-                {/* ✅ Description: subtle WHITE pulse */}
-                <div
-                  className="
-                    pulse-white mt-4 rounded-2xl
-                    bg-[#020617]/60
-                    border border-white/12
-                    p-5
-                    text-[#E2E8F0]
-                    text-sm font-semibold leading-relaxed
-                    min-h-[108px]
-                  "
-                >
+                {/* DESCRIPTION */}
+                <p className="text-gray-600 text-sm leading-relaxed flex-grow">
                   {service.description ||
-                    "Buuxi xogta, ku lifaaq dukumentiyada, kadibna gudbi codsiga."}
-                </div>
+                    "Complete your request easily by filling out the required information and submitting your application."}
+                </p>
 
                 {/* IMAGE */}
                 {service.imageUrl && (
-                  <div className="mt-5 rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-[#020617]/30">
+                  <div className="mt-6 rounded-2xl overflow-hidden border border-blue-100">
                     <img
                       src={service.imageUrl}
                       alt={service.name}
-                      className="w-full h-[180px] object-cover transition duration-500 ease-out group-hover:scale-110"
+                      className="w-full h-[180px] object-cover transition duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
                   </div>
                 )}
+
+                {/* BUTTON */}
+                <button
+                  onClick={() => navigate(`/book?serviceId=${service._id}`)}
+                  className="mt-8 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                  Apply Now
+                  <ArrowRight size={18} className="transition group-hover:translate-x-1" />
+                </button>
+
               </div>
             </div>
           ))}
+
         </div>
       )}
-
-      {/* Animations */}
-      <style>
-        {`
-          /* arrow motion */
-          .arrow-float { animation: apArrow 1.7s ease-in-out infinite; }
-          @keyframes apArrow {
-            0%,100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
-          }
-
-          /* card subtle pulse (very light) */
-          .pulse-card {
-            animation: apCardPulse 2.6s ease-in-out infinite;
-          }
-          @keyframes apCardPulse {
-            0%,100% { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
-            50% { box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 0 22px rgba(255,255,255,0.04); }
-          }
-
-          /* ✅ Subtle WHITE pulse (thin + light) */
-          .pulse-white {
-            animation: apWhitePulse 2.2s ease-in-out infinite;
-          }
-          @keyframes apWhitePulse {
-            0%,100% {
-              box-shadow: 0 0 0 1px rgba(255,255,255,0.14),
-                          0 0 10px rgba(255,255,255,0.04);
-            }
-            50% {
-              box-shadow: 0 0 0 1px rgba(255,255,255,0.26),
-                          0 0 18px rgba(255,255,255,0.08);
-            }
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .arrow-float, .pulse-card, .pulse-white { animation: none !important; }
-          }
-        `}
-      </style>
     </section>
   );
 }
