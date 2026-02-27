@@ -269,124 +269,90 @@ import { Link } from "react-router-dom";
 import girlImg from "../../assets/landing/landing-page.png";
 
 export default function LandingPage() {
-  // =====================================================
-  // ✅ HERO IMAGE (GABADHA) — gooni u maamul (Desktop/Tablet/Mobile)
-  // 👉 sizeMin/sizeVW/sizeMax = cabbirka sawirka (responsive)
-  // 👉 shiftX / shiftY = bidix/midig & kor/hoos (gaar u ah device kasta)
-  // =====================================================
-  const HERO_DESKTOP = {
+  // ===============================
+  // ✅ HERO IMAGE CONTROL (SAFE)
+  // ===============================
+  const HERO = {
     sizeMin: "900px",
     sizeVW: "180vw",
     sizeMax: "1800px",
-    shiftX: "60px", // + = midig, - = bidix
-    shiftY: "20px", // - = kor, + = hoos
-    anchorX: "right",
-    anchorY: "bottom", // footer-ka ha ku dhagsanaato
+
+    posX: "right",
+    posY: "calc(100% + 0px)", // hoos ha u dhawaato
   };
 
-  const HERO_TABLET = {
-    sizeMin: "650px",
-    sizeVW: "78vw",
-    sizeMax: "1100px",
-    shiftX: "0px",
-    shiftY: "-10px",
-    anchorX: "right",
-    anchorY: "bottom",
+  // ===============================
+  // ✅ TEXT CONTROL (SAFE)
+  // ===============================
+  const TEXT = {
+    x: "clamp(-120px, -13vw, -20px)",
+    y: "clamp(-50px, -2vh, -80px)",
+    maxWidth: "clamp(360px, 44vw, 720px)", // ✅ wax yar ballaari
   };
 
-  const HERO_MOBILE = {
-    sizeMin: "420px",
-    sizeVW: "92vw",
-    sizeMax: "720px",
-    shiftX: "0px",
-    shiftY: "0px",
-    anchorX: "center",
-    anchorY: "bottom",
-  };
-
-  // =====================================================
-  // ✅ TEXT GROUP (block-ka qoraalka) — gooni u maamul (Desktop/Tablet/Mobile)
-  // 👉 shiftX/shiftY = text block-ka dhan u rar
-  // =====================================================
-  const TEXT_DESKTOP = {
-    shiftX: "-40px",
-    shiftY: "-10px",
-    maxWidth: "640px",
-    align: "left",
-  };
-
-  const TEXT_TABLET = {
-    shiftX: "0px",
-    shiftY: "-10px",
-    maxWidth: "620px",
-    align: "left",
-  };
-
-  const TEXT_MOBILE = {
-    shiftX: "0px",
-    shiftY: "-10px",
-    maxWidth: "520px",
-    align: "center",
-  };
-
-  // =====================================================
-  // ✅ TITLE (Easy / scheduling / ahead) — gooni u maamul
-  // =====================================================
+  // ===============================
+  // ✅ HEADLINE CONTROL
+  // ===============================
   const TITLE = {
-    fontSize: "clamp(56px, 6vw, 120px)",
-    lineHeight: "0.95",
+    sizeMin: "62px", // ✅ weyne
+    sizeVW: "6.4vw",
+    sizeMax: "128px",
+
     letterSpacing: "-0.02em",
-    shiftX: "-140px",
-    shiftY: "-100px",
+    lineHeight: "0.95",
   };
 
-  // =====================================================
-  // ✅ DESCRIPTION — gooni u maamul (font + width + shift)
-  // (si “monitor” uusan line 2aad ugu dhicin -> width kordhi ama font yar dhig)
-  // =====================================================
+  // ===============================
+  // ✅ DESCRIPTION CONTROL
+  // ===============================
   const DESC = {
-    fontSize: "clamp(16px, 1.25vw, 22px)",
-    lineHeight: "1.65",
-    maxWidth: "clamp(520px, 42vw, 760px)", // ✅ ballaari si line 1 u sii joogo
-    shiftX: "-120px",
-    shiftY: "-80px",
+    sizeMin: "16px",
+    sizeVW: "1.25vw",
+    sizeMax: "22px",
+    maxWidth: "clamp(380px, 34vw, 520px)",
   };
 
-  // =====================================================
-  // ✅ BUTTON — gooni u maamul (cabbir + position)
-  // =====================================================
+  // ===============================
+  // ✅ BUTTON CONTROL
+  // ===============================
   const BTN = {
-    fontSize: "clamp(18px, 1.4vw, 28px)",
-    px: "clamp(26px, 2.6vw, 54px)",
-    py: "clamp(14px, 1.6vw, 22px)",
-    radius: "clamp(16px, 1.8vw, 28px)",
-    shiftX: "-120px",
-    shiftY: "-50px",
+    sizeMin: "16px",
+    sizeVW: "1.2vw",
+    sizeMax: "22px",
+
+    px: "clamp(26px, 2.8vw, 52px)", // ✅ weyne
+    py: "clamp(14px, 1.6vw, 20px)",
+    radius: "clamp(16px, 1.8vw, 26px)",
   };
 
   return (
     <section
-      className="heroSection relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-[#EAF2FF] via-[#F5F9FF] to-white"
+      className="heroSection relative min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-[#EAF2FF] via-[#F5F9FF] to-white"
       style={{
-        // ===== HERO (Desktop default) =====
+        // hero image
         ["--hero-img"]: `url(${girlImg})`,
-        ["--hero-size"]: `clamp(${HERO_DESKTOP.sizeMin}, ${HERO_DESKTOP.sizeVW}, ${HERO_DESKTOP.sizeMax})`,
-        ["--hero-anchor-x"]: HERO_DESKTOP.anchorX,
-        ["--hero-anchor-y"]: HERO_DESKTOP.anchorY,
-        ["--hero-shift-x"]: HERO_DESKTOP.shiftX,
-        ["--hero-shift-y"]: HERO_DESKTOP.shiftY,
+        ["--hero-size"]: `clamp(${HERO.sizeMin}, ${HERO.sizeVW}, ${HERO.sizeMax})`,
+        ["--hero-pos-x"]: HERO.posX,
+        ["--hero-pos-y"]: HERO.posY,
 
-        // ===== TEXT GROUP (Desktop default) =====
-        ["--text-shift-x"]: TEXT_DESKTOP.shiftX,
-        ["--text-shift-y"]: TEXT_DESKTOP.shiftY,
-        ["--text-max-w"]: TEXT_DESKTOP.maxWidth,
-        ["--text-align"]: TEXT_DESKTOP.align,
+        // text group
+        ["--text-x"]: TEXT.x,
+        ["--text-y"]: TEXT.y,
+        ["--text-max-w"]: TEXT.maxWidth,
+
+        // sizes
+        ["--title-size"]: `clamp(${TITLE.sizeMin}, ${TITLE.sizeVW}, ${TITLE.sizeMax})`,
+        ["--desc-size"]: `clamp(${DESC.sizeMin}, ${DESC.sizeVW}, ${DESC.sizeMax})`,
+        ["--btn-size"]: `clamp(${BTN.sizeMin}, ${BTN.sizeVW}, ${BTN.sizeMax})`,
+        ["--btn-px"]: BTN.px,
+        ["--btn-py"]: BTN.py,
+        ["--btn-radius"]: BTN.radius,
       }}
     >
       {/* BG glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-60 h-60 bg-blue-200/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-200/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/35 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-[28rem] h-[28rem] bg-purple-200/30 rounded-full blur-3xl animate-pulse" />
       </div>
 
       {/* CONTENT */}
@@ -394,19 +360,16 @@ export default function LandingPage() {
         <div
           className="space-y-6"
           style={{
-            maxWidth: `var(--text-max-w)`,
-            transform: `translate(var(--text-shift-x), var(--text-shift-y))`,
-            textAlign: `var(--text-align)`,
+            maxWidth: "var(--text-max-w)",
+            transform: "translate(var(--text-x), var(--text-y))",
           }}
         >
-          {/* TITLE */}
           <h1
             className="font-extrabold text-[#2563EB]"
             style={{
-              fontSize: TITLE.fontSize,
+              fontSize: "var(--title-size)",
               lineHeight: TITLE.lineHeight,
               letterSpacing: TITLE.letterSpacing,
-              transform: `translate(${TITLE.shiftX}, ${TITLE.shiftY})`,
             }}
           >
             Easy <br />
@@ -414,31 +377,29 @@ export default function LandingPage() {
             ahead
           </h1>
 
-          {/* DESCRIPTION (hal line-ka hore “monitor” ha la socdo) */}
           <p
             className="text-gray-600 font-medium"
             style={{
-              fontSize: DESC.fontSize,
-              lineHeight: DESC.lineHeight,
+              fontSize: "var(--desc-size)",
+              lineHeight: 1.65,
               maxWidth: DESC.maxWidth,
-              transform: `translate(${DESC.shiftX}, ${DESC.shiftY})`,
             }}
           >
-            Book your appointment effortlessly and monitor <br /> the progress of your
-            application in real time.
+            Book your appointment effortlessly and monitor
+            <br />
+            the progress of your application in real time.
           </p>
 
-          {/* BUTTON */}
-          <div style={{ transform: `translate(${BTN.shiftX}, ${BTN.shiftY})` }}>
+          <div>
             <Link
               to="/services"
               className="inline-flex items-center justify-center text-white font-extrabold
                          bg-gradient-to-r from-[#2563EB] to-[#4F46E5]
                          shadow-xl hover:scale-105 transition"
               style={{
-                fontSize: BTN.fontSize,
-                padding: `${BTN.py} ${BTN.px}`,
-                borderRadius: BTN.radius,
+                fontSize: "var(--btn-size)",
+                padding: "var(--btn-py) var(--btn-px)",
+                borderRadius: "var(--btn-radius)",
               }}
             >
               Book Now!
@@ -447,119 +408,53 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* ✅ RESPONSIVE: media queries ayaa kala qaadaya values-ka (Tablet/Mobile) */}
+      {/* ✅ Responsive background (hero image) */}
       <style>{`
         .heroSection{
           background-image: var(--hero-img);
           background-repeat: no-repeat;
           background-size: var(--hero-size);
-
-          /* anchor + shift */
-          background-position:
-            var(--hero-anchor-x)
-            var(--hero-anchor-y);
-          background-position:
-            calc(
-              ${
-                HERO_DESKTOP.anchorX === "center"
-                  ? "50%"
-                  : HERO_DESKTOP.anchorX === "left"
-                  ? "0%"
-                  : "100%"
-              } + var(--hero-shift-x)
-            )
-            calc(
-              ${
-                HERO_DESKTOP.anchorY === "top"
-                  ? "0%"
-                  : HERO_DESKTOP.anchorY === "center"
-                  ? "50%"
-                  : "100%"
-              } + var(--hero-shift-y)
-            );
+          background-position: var(--hero-pos-x) var(--hero-pos-y);
         }
 
-        /* ===== TABLET (<=1024px) ===== */
+        /* ✅ TABLET */
         @media (max-width: 1024px){
           .heroSection{
-            background-size: clamp(${HERO_TABLET.sizeMin}, ${HERO_TABLET.sizeVW}, ${HERO_TABLET.sizeMax});
-            background-position:
-              ${
-                HERO_TABLET.anchorX === "center"
-                  ? "50%"
-                  : HERO_TABLET.anchorX === "left"
-                  ? "0%"
-                  : "100%"
-              }
-              ${
-                HERO_TABLET.anchorY === "top"
-                  ? "0%"
-                  : HERO_TABLET.anchorY === "center"
-                  ? "50%"
-                  : "100%"
-              };
-            background-position:
-              calc(${
-                HERO_TABLET.anchorX === "center"
-                  ? "50%"
-                  : HERO_TABLET.anchorX === "left"
-                  ? "0%"
-                  : "100%"
-              } + ${HERO_TABLET.shiftX})
-              calc(${
-                HERO_TABLET.anchorY === "top"
-                  ? "0%"
-                  : HERO_TABLET.anchorY === "center"
-                  ? "50%"
-                  : "100%"
-              } + ${HERO_TABLET.shiftY});
+            background-size: clamp(720px, 110vw, 1200px);
+            background-position: right calc(100% + 0px);
+          }
 
-            --text-shift-x: ${TEXT_TABLET.shiftX};
-            --text-shift-y: ${TEXT_TABLET.shiftY};
-            --text-max-w: ${TEXT_TABLET.maxWidth};
-            --text-align: ${TEXT_TABLET.align};
+          /* text ha u soo galo */
+          .heroSection > div:nth-child(2) > div{
+            transform: translate(0px, -10px) !important;
+            max-width: 680px !important;
           }
         }
 
-        /* ===== MOBILE (<=640px) ===== */
+        /* ✅ MOBILE */
         @media (max-width: 640px){
           .heroSection{
-            background-size: clamp(${HERO_MOBILE.sizeMin}, ${HERO_MOBILE.sizeVW}, ${HERO_MOBILE.sizeMax});
-            background-position:
-              ${
-                HERO_MOBILE.anchorX === "center"
-                  ? "50%"
-                  : HERO_MOBILE.anchorX === "left"
-                  ? "0%"
-                  : "100%"
-              }
-              ${
-                HERO_MOBILE.anchorY === "top"
-                  ? "0%"
-                  : HERO_MOBILE.anchorY === "center"
-                  ? "50%"
-                  : "100%"
-              };
-            background-position:
-              calc(${
-                HERO_MOBILE.anchorX === "center"
-                  ? "50%"
-                  : HERO_MOBILE.anchorX === "left"
-                  ? "0%"
-                  : "100%"
-              } + ${HERO_MOBILE.shiftX})
-              calc(${
-                HERO_MOBILE.anchorY === "top"
-                  ? "0%"
-                  : HERO_MOBILE.anchorY === "center"
-                  ? "50%"
-                  : "100%"
-              } + ${HERO_MOBILE.shiftY});
+            /* mobile: sawirka hoos u dhig, center */
+            background-size: clamp(520px, 130vw, 900px);
+            background-position: 50% calc(100% + 40px);
+          }
 
-            --text-shift-x: ${TEXT_MOBILE.shiftX};
-            --text-shift-y: ${TEXT_MOBILE.shiftY};
-            --text-max-w: ${TEXT_MOBILE.maxWidth};
-            --text-align: ${TEXT_MOBILE.align};
+          /* mobile: text center + safe */
+          .heroSection > div:nth-child(2) > div{
+            transform: translate(0px, -10px) !important;
+            max-width: 520px !important;
+            text-align: center !important;
+          }
+
+          /* mobile: title yar u deji si uusan u qarsoomin */
+          .heroSection h1{
+            font-size: clamp(44px, 10vw, 64px) !important;
+          }
+
+          .heroSection p{
+            font-size: 16px !important;
+            margin-left: auto;
+            margin-right: auto;
           }
         }
       `}</style>
