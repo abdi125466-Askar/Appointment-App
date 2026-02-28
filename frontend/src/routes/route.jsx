@@ -142,6 +142,7 @@ import UnauthorizedPage from "../pages/Public/UnauthorizedPage";
 // ================= LAYOUT =================
 import DashboardLayout from "../layouts/DashboardLayout";
 import Dashboard from "../Components/Dashboard";
+import UsersProgress from "../pages/user/UsersProgress";
 
 const systemRoutes = [
   {
@@ -174,6 +175,7 @@ const systemRoutes = [
 
           { path: "profile", element: <Profile /> },
           { path: "users", element: <Users /> },
+            { path: "progress", element: <UsersProgress /> },
 
           { path: "customers", element: <Customers /> },
           { path: "services", element: <Services /> },

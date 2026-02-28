@@ -1172,4 +1172,109 @@ exports.getEmployeeDashboardAnalytics = async (req, res) => {
       message: error.message || "Failed to load dashboard analytics",
     });
   }
+};exports.getAllUsersAppointmentProgress = async (req, res) => {
+  try {
+    // Optional: filter by month & year
+    const { month, year } = req.query;
+
+    let dateFilter = {};
+
+    if (month && year) {
+      const m = Number(month);
+      const y = Number(year);
+
+      if (!Number.isFinite(m) || !Number.isFinite(y) || m < 1 || m > 12) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid month/year",
+        });
+      }
+
+      const startOfMonth = new Date(y, m - 1, 1, 0, 0, 0, 0);
+      const endOfMonth = new Date(y, m, 0, 23, 59, 59, 999);
+
+      dateFilter = {
+        appointmentDate: { $gte: startOfMonth, $lte: endOfMonth },
+      };
+    }
+
+    // Get all appointments that are assigned to users
+    const appointments = await Appointment.find({
+      assignedUserId: { $ne: null },
+      ...dateFilter,
+    })
+      .populate("assignedUserId", "fullName email role")
+      .lean();
+
+    // Group by user
+    const userMap = {};
+
+    appointments.forEach((appt) => {
+      const user = appt.assignedUserId;
+      if (!user) return;
+
+      const userId = user._id.toString();
+
+      if (!userMap[userId]) {
+        userMap[userId] = {
+          userId,
+          fullName: user.fullName,
+          email: user.email,
+          role: user.role,
+          totalAssigned: 0,
+          completed: 0,
+          approved: 0,
+          rejected: 0,
+          noShow: 0,
+        };
+      }
+
+      userMap[userId].totalAssigned++;
+
+      if (appt.status === "COMPLETED") userMap[userId].completed++;
+      if (appt.status === "APPROVED") userMap[userId].approved++;
+      if (appt.status === "REJECTED") userMap[userId].rejected++;
+      if (appt.status === "NO_SHOW") userMap[userId].noShow++;
+    });
+
+    // Calculate percentages
+    const result = Object.values(userMap).map((user) => {
+      const completionPercentage =
+        user.totalAssigned > 0
+          ? Math.round((user.completed / user.totalAssigned) * 100)
+          : 0;
+
+      // Optional weighted performance score
+      const performanceScore =
+        user.totalAssigned > 0
+          ? Math.round(
+              ((user.completed * 1 +
+                user.approved * 0.5 -
+                user.noShow * 0.3 -
+                user.rejected * 0.5) /
+                user.totalAssigned) *
+                100
+            )
+          : 0;
+
+      return {
+        ...user,
+        completionPercentage,
+        performanceScore,
+      };
+    });
+
+    return res.json({
+      success: true,
+      count: result.length,
+      filters: { month: month || null, year: year || null },
+      data: result.sort((a, b) => b.completionPercentage - a.completionPercentage),
+    });
+  } catch (error) {
+    console.error("ADMIN USERS PROGRESS ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch users progress",
+    });
+  }
 };

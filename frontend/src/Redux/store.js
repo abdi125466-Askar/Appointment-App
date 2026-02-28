@@ -7,9 +7,11 @@ import appointmentReducer from "./slices/cusomerSlice/appointmentSlice";
 import appointmentDashboardReducer from "./slices/cusomerSlice/appointmentDashboardSlice";
 import appointmentEmployeeReducer from "./slices/cusomerSlice/appointmentEmployeeSlice";
 import publicAppointmentReducer from "./slices/PublicSlice/publicAppointmentSlice";
+import usersProgressReducer from "../pages/user/usersProgressSlice";
 
 export const store = configureStore({
   reducer: {
+     usersProgress: usersProgressReducer,
     users: userReducer,
     auth: authReducer,
     customers: customerReducer,

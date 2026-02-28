@@ -312,6 +312,12 @@ export default function Sidebar({
                   label="Users"
                   onNav={() => handleNavClick(null)}
                 />
+                        <NavItem
+                  to="/dashboard/progress"
+                  icon={<Users size={20} />}
+                  label="User-Progress"
+                  onNav={() => handleNavClick(null)}
+                />
                 <NavItem
                   to="/dashboard/customers"
                   icon={<UserSquare2 size={20} />}

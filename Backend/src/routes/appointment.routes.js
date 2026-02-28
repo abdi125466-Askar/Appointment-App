@@ -73,6 +73,7 @@ const {
   updateAssignedUser,
   getMyApprovedAppointments,
   getEmployeeDashboardAnalytics,
+  getAllUsersAppointmentProgress,
 } = require("../controller/Customer/appointment.controller");
 
 const { getAppointmentDashboard } = require("../controller/Dashboard/appointmentDashboard.controller");
@@ -93,6 +94,10 @@ router.get("/", getAppointments);
 
 // PERMANENT DELETE (⚠️ MUST be before "/:id")
 router.delete("/permanent/:id", deleteAppointmentPermanent);
+router.get("/admin/appointments/users-progress", getAllUsersAppointmentProgress);
+
+
+
 
 // READ ONE
 router.get("/:id", getAppointmentById);
