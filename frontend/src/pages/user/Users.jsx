@@ -43,6 +43,17 @@ export default function Users() {
     status: "PENDING",
   });
 
+  // ✅ NEW: Added Base URL and Avatar helper from Profile.jsx
+  const API_BASE =
+    import.meta?.env?.VITE_API_URL?.replace(/\/$/, "") ||
+    "http://localhost:4000/api";
+
+  const getAvatarUrl = (v) => {
+    if (!v) return "";
+    if (/^https?:\/\//i.test(v)) return v;
+    return `${API_BASE.replace(/\/api$/, "")}${v}`;
+  };
+
   // ✅ Fetch users whenever search changes
   useEffect(() => {
     dispatch(fetchUsers({ search }));
@@ -101,7 +112,8 @@ export default function Users() {
   };
 
   const toggleApprove = (u) => {
-    const next = u.status === "APPROVED" ? "PENDING" : "APPROVED";
+    // Changed from PENDING to DISABLED so the user is actually frozen
+    const next = u.status === "APPROVED" ? "DISABLED" : "APPROVED";
     dispatch(updateUserStatus({ id: u._id, status: next }));
   };
 
@@ -161,92 +173,109 @@ export default function Users() {
 
       {/* USER CARDS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {list.map((u) => (
-          <div
-            key={u._id}
-            className="group relative bg-white border border-gray-200/60 rounded-[2.5rem] p-7 hover:shadow-2xl hover:shadow-indigo-100/40 hover:border-indigo-200 transition-all duration-300 flex flex-col"
-          >
-            <div className="flex justify-between items-start mb-6">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 border border-gray-200">
-                <Shield size={10} className="text-gray-400" />
-                {u.role}
-              </span>
+        {list.map((u) => {
+          // ✅ NEW: Fetch the specific avatar url for this user
+          const avatar = getAvatarUrl(u.avatarUrl);
 
-              <span
-                className={`px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ring-1 ring-inset ${
-                  statusBadge[u.status] || statusBadge.DISABLED
-                }`}
-              >
-                {u.status}
-              </span>
-            </div>
+          return (
+            <div
+              key={u._id}
+              className="group relative bg-white border border-gray-200/60 rounded-[2.5rem] p-7 hover:shadow-2xl hover:shadow-indigo-100/40 hover:border-indigo-200 transition-all duration-300 flex flex-col"
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 border border-gray-200">
+                  <Shield size={10} className="text-gray-400" />
+                  {u.role}
+                </span>
 
-            <div className="flex flex-col items-center text-center flex-1 mb-8">
-              <div className="relative w-24 h-24 mb-4">
-                <div className="absolute inset-0 bg-indigo-500/5 rounded-3xl blur-md group-hover:bg-indigo-500/10 transition-all"></div>
-                <div className="relative w-full h-full rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-100 text-gray-400 flex items-center justify-center font-bold text-3xl group-hover:scale-105 group-hover:from-indigo-600 group-hover:to-indigo-700 group-hover:text-white group-hover:border-indigo-500 transition-all duration-500 shadow-sm">
-                  {u.fullName?.charAt(0)}
+                <span
+                  className={`px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ring-1 ring-inset ${
+                    statusBadge[u.status] || statusBadge.DISABLED
+                  }`}
+                >
+                  {u.status}
+                </span>
+              </div>
+
+              <div className="flex flex-col items-center text-center flex-1 mb-8">
+                <div className="relative w-24 h-24 mb-4">
+                  <div className="absolute inset-0 bg-indigo-500/5 rounded-3xl blur-md group-hover:bg-indigo-500/10 transition-all"></div>
+                  {/* ✅ NEW: Added overflow-hidden to contain the image, and replaced initial with image logic */}
+                  <div className="relative w-full h-full rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-100 text-gray-400 flex items-center justify-center font-bold text-3xl group-hover:scale-105 group-hover:from-indigo-600 group-hover:to-indigo-700 group-hover:text-white group-hover:border-indigo-500 transition-all duration-500 shadow-sm overflow-hidden">
+                    {avatar ? (
+                      <img
+                        src={avatar}
+                        alt={u.fullName}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      u.fullName?.charAt(0).toUpperCase()
+                    )}
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                  {u.fullName}
+                </h3>
+
+                <div className="mt-3 flex items-center gap-2 text-sm text-gray-500 font-medium bg-gray-50 px-4 py-1.5 rounded-full border border-gray-100 group-hover:bg-indigo-50/50 group-hover:border-indigo-100 transition-colors">
+                  <Mail size={14} className="text-gray-300 group-hover:text-indigo-400" />
+                  {u.email}
                 </div>
               </div>
 
-              <h3 className="text-xl font-bold text-gray-900 tracking-tight">
-                {u.fullName}
-              </h3>
+              <div className="pt-6 border-t border-gray-50 grid grid-cols-3 gap-2">
+                <button
+                  onClick={() => openEdit(u)}
+                  className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+                >
+                  <Edit size={16} />
+                  <span className="text-[10px] font-bold uppercase tracking-tighter">
+                    Edit
+                  </span>
+                </button>
 
-              <div className="mt-3 flex items-center gap-2 text-sm text-gray-500 font-medium bg-gray-50 px-4 py-1.5 rounded-full border border-gray-100 group-hover:bg-indigo-50/50 group-hover:border-indigo-100 transition-colors">
-                <Mail size={14} className="text-gray-300 group-hover:text-indigo-400" />
-                {u.email}
+                <button
+                  onClick={() => toggleApprove(u)}
+                  className={`flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl transition-all ${
+                    u.status === "APPROVED"
+                      ? "text-gray-400 hover:text-amber-600 hover:bg-amber-50"
+                      : "text-gray-400 hover:text-emerald-600 hover:bg-emerald-50"
+                  }`}
+                >
+                  {u.status === "APPROVED" ? (
+                    <>
+                      <Slash size={16} />
+                      <span className="text-[10px] font-bold uppercase tracking-tighter">
+                        Suspend
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle size={16} />
+                      <span className="text-[10px] font-bold uppercase tracking-tighter">
+                        Approve
+                      </span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setConfirmDelete(u)}
+                  className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition-all"
+                >
+                  <Trash2 size={16} />
+                  <span className="text-[10px] font-bold uppercase tracking-tighter">
+                    Delete
+                  </span>
+                </button>
               </div>
             </div>
-
-            <div className="pt-6 border-t border-gray-50 grid grid-cols-3 gap-2">
-              <button
-                onClick={() => openEdit(u)}
-                className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
-              >
-                <Edit size={16} />
-                <span className="text-[10px] font-bold uppercase tracking-tighter">
-                  Edit
-                </span>
-              </button>
-
-              <button
-                onClick={() => toggleApprove(u)}
-                className={`flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl transition-all ${
-                  u.status === "APPROVED"
-                    ? "text-gray-400 hover:text-amber-600 hover:bg-amber-50"
-                    : "text-gray-400 hover:text-emerald-600 hover:bg-emerald-50"
-                }`}
-              >
-                {u.status === "APPROVED" ? (
-                  <>
-                    <Slash size={16} />
-                    <span className="text-[10px] font-bold uppercase tracking-tighter">
-                      Suspend
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle size={16} />
-                    <span className="text-[10px] font-bold uppercase tracking-tighter">
-                      Approve
-                    </span>
-                  </>
-                )}
-              </button>
-
-              <button
-                onClick={() => setConfirmDelete(u)}
-                className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition-all"
-              >
-                <Trash2 size={16} />
-                <span className="text-[10px] font-bold uppercase tracking-tighter">
-                  Delete
-                </span>
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* FORM MODAL */}
@@ -355,6 +384,8 @@ export default function Users() {
                   >
                     <option value="PENDING">PENDING</option>
                     <option value="APPROVED">APPROVED</option>
+                    {/* Added DISABLED option to the form so you can manually select it */}
+                    <option value="DISABLED">DISABLED</option>
                   </select>
                 </div>
               </div>

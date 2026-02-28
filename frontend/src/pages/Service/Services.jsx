@@ -11,6 +11,7 @@ import {
   Trash2,
   Loader2,
   MoreHorizontal, // Added for visual flair (optional)
+  AlertCircle, // ✅ Added for the toast notification
 } from "lucide-react";
 
 import {
@@ -31,6 +32,9 @@ export default function Services() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [search, setSearch] = useState("");
+  
+  // ✅ NEW: State to manage our custom error toast notification
+  const [errorToast, setErrorToast] = useState("");
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -41,6 +45,29 @@ export default function Services() {
       ...data,
       code: String(data.code || "").toUpperCase().trim(),
     };
+
+    // ✅ NEW: Check for duplicate Name or Code
+    const isDuplicate = (list || []).some((service) => {
+      const existingName = String(service.name || "").toLowerCase().trim();
+      const existingCode = String(service.code || "").toUpperCase().trim();
+      const newName = String(payload.name || "").toLowerCase().trim();
+      const newCode = payload.code;
+
+      const isSameName = existingName === newName;
+      const isSameCode = existingCode === newCode;
+      
+      // If we are updating, ignore the service we are currently editing
+      const isDifferentService = service._id !== selectedService?._id;
+
+      return (isSameName || isSameCode) && isDifferentService;
+    });
+
+    if (isDuplicate) {
+      // Trigger the toast notification and clear it after 4 seconds
+      setErrorToast("Registration rejected: A service with this Name or Internal Code already exists.");
+      setTimeout(() => setErrorToast(""), 4000);
+      return; // Stop execution here, do not dispatch
+    }
 
     if (selectedService) {
       dispatch(updateService({ id: selectedService._id, data: payload }));
@@ -262,12 +289,20 @@ export default function Services() {
         }}
         onSubmit={handleSave}
       />
+
+      {/* ✅ NEW: Toast Notification UI */}
+      {errorToast && (
+        <div className="fixed bottom-6 right-6 z-[200] animate-in slide-in-from-bottom-5 fade-in duration-300 flex items-center gap-3 bg-rose-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl shadow-rose-600/20 font-medium text-sm">
+          <AlertCircle size={20} className="text-rose-100" />
+          {errorToast}
+        </div>
+      )}
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/* SUBCOMPONENTS                               */
+/* SUBCOMPONENTS                                                              */
 /* -------------------------------------------------------------------------- */
 
 function StatCard({ label, value, icon, accentColor = "indigo" }) {
