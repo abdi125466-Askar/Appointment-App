@@ -1,16 +1,25 @@
 const nodemailer = require("nodemailer");
 
 /* ======================================================
-   CREATE TRANSPORTER (PRODUCTION SAFE FOR RAILWAY)
+   CREATE TRANSPORTER (RAILWAY + GMAIL SAFE)
 ====================================================== */
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,              // IMPORTANT
-  secure: false,          // false for 587
+  host: process.env.SMTP_HOST || "smtp.gmail.com",
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: false, // IMPORTANT for port 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+
+  // 🔥 IMPORTANT FOR RAILWAY
+  tls: {
+    rejectUnauthorized: false,
+  },
+
+  connectionTimeout: 10000, // avoid hanging
+  greetingTimeout: 10000,
+  socketTimeout: 15000,
 });
 
 /* ======================================================
