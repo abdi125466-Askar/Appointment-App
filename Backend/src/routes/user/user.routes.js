@@ -96,7 +96,7 @@ router.put(
 // USERS CRUD (STATIC ROUTES FIRST)
 //////////////////////////////////////////////////////
 
-router.post("/", createUser);
+router.post("/create", createUser);
 router.get("/", getUsers);
 
 //////////////////////////////////////////////////////
