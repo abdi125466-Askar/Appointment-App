@@ -196,6 +196,240 @@ exports.getAvailablePublicSlots = async (req, res) => {
  * CREATE PUBLIC APPOINTMENT
  * ======================================================
  */
+// exports.createPublicAppointment = async (req, res) => {
+//   try {
+//     const {
+//       fullName,
+//       phone,
+//       email,
+//       gender,
+//       serviceId,
+//       appointmentDate,
+//       appointmentTime,
+//     } = req.body;
+
+//     if (
+//       !fullName ||
+//       !phone ||
+//       !email ||
+//       !gender ||
+//       !serviceId ||
+//       !appointmentDate ||
+//       !appointmentTime
+//     ) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Missing required fields",
+//       });
+//     }
+
+//     const cleanName = String(fullName).trim();
+//     const cleanPhone = String(phone).trim();
+//     const cleanEmail = String(email).trim();
+//     const cleanTime = String(appointmentTime).trim();
+
+//     if (cleanName.length < 7) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Full Name must be at least 7 characters",
+//       });
+//     }
+
+//     if (countDigits(cleanPhone) < 7) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Phone must contain at least 7 digits",
+//       });
+//     }
+
+//     if (!GMAIL_REGEX.test(cleanEmail)) {
+//       return res.status(400).json({
+//         success: false,
+//         message:
+//           "Invalid email. Please enter a complete Gmail address ending with @gmail.com",
+//       });
+//     }
+
+   
+
+//     if (!mongoose.Types.ObjectId.isValid(serviceId)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid serviceId",
+//       });
+//     }
+
+//     const service = await Service.findById(serviceId);
+//     if (!service || service.isActive === false) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Service not available",
+//       });
+//     }
+
+//     const normalized = normalizeDateRange(appointmentDate);
+//     if (!normalized) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid appointmentDate",
+//       });
+//     }
+
+//     const { parsed, start, end } = normalized;
+
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+
+//     if (start < today) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Past dates are not allowed",
+//       });
+//     }
+
+//     if (isFriday(parsed)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Friday is off. Please choose Saturday to Thursday.",
+//       });
+//     }
+
+//     if (!WORKING_SLOTS.includes(cleanTime)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid appointment time",
+//       });
+//     }
+
+//     if (isSameDay(start, today)) {
+//       const [hours, minutes] = cleanTime.split(":").map(Number);
+
+//       const slotStart = new Date(start);
+//       slotStart.setHours(hours, minutes || 0, 0, 0);
+
+//       const slotEnd = new Date(slotStart);
+//       slotEnd.setMinutes(slotEnd.getMinutes() + 15);
+
+//       if (new Date() >= slotEnd) {
+//         return res.status(400).json({
+//           success: false,
+//           message: "This selected time has already passed",
+//         });
+//       }
+//     }
+
+//     const maxPerDay = Number(service.maxCustomersPerDay || 0);
+//     if (maxPerDay > 0) {
+//       const booked = await Appointment.countDocuments({
+//         serviceId,
+//         appointmentDate: { $gte: start, $lte: end },
+//         status: { $in: ["PENDING", "APPROVED"] },
+//       });
+
+//       if (booked >= maxPerDay) {
+//         return res.status(400).json({
+//           success: false,
+//           message: "This date is fully booked",
+//         });
+//       }
+//     }
+
+//     const slotTaken = await Appointment.findOne({
+//       serviceId,
+//       appointmentDate: { $gte: start, $lte: end },
+//       appointmentTime: cleanTime,
+//       status: { $in: ["PENDING", "APPROVED"] },
+//     });
+
+//     if (slotTaken) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "This time slot is already booked. Please choose another time.",
+//       });
+//     }
+
+//     const customer = await Customer.findOneAndUpdate(
+//       { phone: cleanPhone },
+//       {
+//         $set: {
+//           fullName: cleanName,
+//           email: cleanEmail,
+//           gender,
+//         },
+//         $setOnInsert: {
+//           phone: cleanPhone,
+//         },
+//       },
+//       { new: true, upsert: true }
+//     );
+
+//     const exists = await Appointment.findOne({
+//       customerId: customer._id,
+//       serviceId,
+//       appointmentDate: { $gte: start, $lte: end },
+//       appointmentTime: cleanTime,
+//       status: { $in: ["PENDING", "APPROVED"] },
+//     });
+
+//     if (exists) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "You already booked this service on this date and time",
+//       });
+//     }
+
+//     const documents = [
+//       {
+//         filename: req.file.filename,
+//         originalName: req.file.originalname,
+//         size: req.file.size,
+//         mimeType: req.file.mimetype,
+//         uploadedAt: new Date(),
+//       },
+//     ];
+
+//     const appointment = await Appointment.create({
+//       customerId: customer._id,
+//       serviceId,
+//       appointmentDate: start,
+//       appointmentTime: cleanTime,
+//       status: "PENDING",
+//       documents,
+//     });
+
+//     return res.status(201).json({
+//       success: true,
+//       message: "Appointment created successfully",
+//       data: {
+//         appointmentId: appointment._id,
+//         customer: {
+//           fullName: customer.fullName,
+//           phone: customer.phone,
+//           email: customer.email,
+//         },
+//         service: {
+//           id: service._id,
+//           name: service.name,
+//         },
+//         appointmentDate: appointment.appointmentDate,
+//         appointmentTime: appointment.appointmentTime,
+//         status: appointment.status,
+//         hasDocument: true,
+//         documents,
+//       },
+//     });
+//   } catch (err) {
+//     console.error("Create appointment error:", err);
+
+//     const isProd = process.env.NODE_ENV === "production";
+
+//     return res.status(500).json({
+//       success: false,
+//       message: err?.message || "Failed to create appointment",
+//       ...(isProd ? {} : { error: err?.errors || err }),
+//     });
+//   }
+// };
 exports.createPublicAppointment = async (req, res) => {
   try {
     const {
@@ -242,18 +476,12 @@ exports.createPublicAppointment = async (req, res) => {
       });
     }
 
-    if (!GMAIL_REGEX.test(cleanEmail)) {
+    // ✅ allow any email
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!EMAIL_REGEX.test(cleanEmail)) {
       return res.status(400).json({
         success: false,
-        message:
-          "Invalid email. Please enter a complete Gmail address ending with @gmail.com",
-      });
-    }
-
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "Supporting document is required",
+        message: "Invalid email address",
       });
     }
 
@@ -306,53 +534,6 @@ exports.createPublicAppointment = async (req, res) => {
       });
     }
 
-    if (isSameDay(start, today)) {
-      const [hours, minutes] = cleanTime.split(":").map(Number);
-
-      const slotStart = new Date(start);
-      slotStart.setHours(hours, minutes || 0, 0, 0);
-
-      const slotEnd = new Date(slotStart);
-      slotEnd.setMinutes(slotEnd.getMinutes() + 15);
-
-      if (new Date() >= slotEnd) {
-        return res.status(400).json({
-          success: false,
-          message: "This selected time has already passed",
-        });
-      }
-    }
-
-    const maxPerDay = Number(service.maxCustomersPerDay || 0);
-    if (maxPerDay > 0) {
-      const booked = await Appointment.countDocuments({
-        serviceId,
-        appointmentDate: { $gte: start, $lte: end },
-        status: { $in: ["PENDING", "APPROVED"] },
-      });
-
-      if (booked >= maxPerDay) {
-        return res.status(400).json({
-          success: false,
-          message: "This date is fully booked",
-        });
-      }
-    }
-
-    const slotTaken = await Appointment.findOne({
-      serviceId,
-      appointmentDate: { $gte: start, $lte: end },
-      appointmentTime: cleanTime,
-      status: { $in: ["PENDING", "APPROVED"] },
-    });
-
-    if (slotTaken) {
-      return res.status(400).json({
-        success: false,
-        message: "This time slot is already booked. Please choose another time.",
-      });
-    }
-
     const customer = await Customer.findOneAndUpdate(
       { phone: cleanPhone },
       {
@@ -368,30 +549,25 @@ exports.createPublicAppointment = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    const exists = await Appointment.findOne({
-      customerId: customer._id,
-      serviceId,
-      appointmentDate: { $gte: start, $lte: end },
-      appointmentTime: cleanTime,
-      status: { $in: ["PENDING", "APPROVED"] },
-    });
+    ////////////////////////////////////////////////////////
+    // ✅ FILE OPTIONAL
+    ////////////////////////////////////////////////////////
 
-    if (exists) {
-      return res.status(400).json({
-        success: false,
-        message: "You already booked this service on this date and time",
-      });
-    }
+    let documents = [];
 
-    const documents = [
-      {
+    if (req.file) {
+      documents.push({
         filename: req.file.filename,
         originalName: req.file.originalname,
         size: req.file.size,
         mimeType: req.file.mimetype,
         uploadedAt: new Date(),
-      },
-    ];
+      });
+    }
+
+    ////////////////////////////////////////////////////////
+    // CREATE APPOINTMENT
+    ////////////////////////////////////////////////////////
 
     const appointment = await Appointment.create({
       customerId: customer._id,
@@ -419,7 +595,7 @@ exports.createPublicAppointment = async (req, res) => {
         appointmentDate: appointment.appointmentDate,
         appointmentTime: appointment.appointmentTime,
         status: appointment.status,
-        hasDocument: true,
+        hasDocument: documents.length > 0,
         documents,
       },
     });
@@ -435,7 +611,6 @@ exports.createPublicAppointment = async (req, res) => {
     });
   }
 };
-
 /**
  * ======================================================
  * GET APPOINTMENT STATUS

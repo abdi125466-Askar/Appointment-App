@@ -24,7 +24,8 @@ import {
 } from "../../Redux/slices/PublicSlice/publicAppointmentSlice";
 
 const TRACKING_KEY = "appointify_tracking_id";
-const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+// const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FRIDAY_DAY_INDEX = 5;
 const HOUR_ORDER = ["07", "08", "09", "10", "11"];
 
@@ -113,19 +114,28 @@ export default function PublicAppointmentPage() {
     return "";
   };
 
-  const validateGmail = (value = "") => {
-    const clean = value.trim();
-    if (!clean) return "Email is required.";
-    if (!GMAIL_REGEX.test(clean)) {
-      return "Invalid email. Please enter a complete Gmail address ending with @gmail.com";
-    }
-    return "";
-  };
+  // const validateGmail = (value = "") => {
+  //   const clean = value.trim();
+  //   if (!clean) return "Email is required.";
+  //   if (!GMAIL_REGEX.test(clean)) {
+  //     return "Invalid email. Please enter a complete Gmail address ending with @gmail.com";
+  //   }
+  //   return "";
+  // };
+const validateEmail = (value = "") => {
+  const clean = value.trim();
+  if (!clean) return "Email is required.";
+  if (!EMAIL_REGEX.test(clean)) {
+    return "Invalid email address.";
+  }
+  return "";
+};
 
-  const validateFile = (value) => {
-    if (!value) return "Supporting document is required.";
-    return "";
-  };
+
+const validateFile = (value) => {
+  // optional file
+  return "";
+};
 
   const hourSlotCards = useMemo(() => {
     const slotSet = new Set(availableSlots);
@@ -260,9 +270,8 @@ export default function PublicAppointmentPage() {
     return (
       !validateName(fullName) &&
       !validatePhone(phone) &&
-      !validateGmail(email) &&
-      !validateFile(file) &&
-      !!selectedServiceId &&
+    !validateEmail(email) &&
+          !!selectedServiceId &&
       !!appointmentDate &&
       !!appointmentTime &&
       !isPastDate &&
@@ -347,12 +356,12 @@ export default function PublicAppointmentPage() {
 
     const currentNameError = validateName(fullName);
     const currentPhoneError = validatePhone(phone);
-    const currentEmailError = validateGmail(email);
+ const currentEmailError = validateEmail(email);
     const currentFileError = validateFile(file);
 
     setNameError(currentNameError);
     setPhoneError(currentPhoneError);
-    setEmailError(currentEmailError);
+ setEmailError(currentEmailError);
     setFileError(currentFileError);
 
     if (!appointmentTime) {
@@ -395,7 +404,9 @@ export default function PublicAppointmentPage() {
     formData.append("serviceId", selectedServiceId);
     formData.append("appointmentDate", appointmentDate);
     formData.append("appointmentTime", appointmentTime);
-    formData.append("file", file);
+   if (file) {
+  formData.append("file", file);
+}
 
     const resAction = await dispatch(createPublicAppointment(formData));
 
@@ -554,12 +565,12 @@ export default function PublicAppointmentPage() {
                       : "border-slate-300 focus:ring-sky-400/20"
                   }`}
                   value={email}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setEmail(v);
-                    setEmailError(validateGmail(v));
-                    setHasSubmittedSuccessfully(false);
-                  }}
+                onChange={(e) => {
+  const v = e.target.value;
+  setEmail(v);
+  setEmailError(validateEmail(v));
+  setHasSubmittedSuccessfully(false);
+}}
                   placeholder="name@gmail.com"
                 />
                 {emailError && (
