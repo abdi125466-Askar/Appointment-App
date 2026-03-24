@@ -451,14 +451,17 @@ exports.createUser = async (req, res) => {
       provider: "local",
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
+      message: "User created successfully",
       data: user,
     });
+
   } catch (error) {
-    res.status(500).json({
+    console.error("CREATE USER ERROR:", error);
+    return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Failed to create user",
     });
   }
 };
@@ -467,19 +470,60 @@ exports.createUser = async (req, res) => {
    GET ALL USERS
 ========================= */
 exports.getUsers = async (req, res) => {
-  const users = await User.find();
-  res.json({ success: true, data: users });
+  try {
+    const users = await User.find();
+
+    return res.status(200).json({
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    console.error("GET USERS ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+    });
+  }
 };
 
 /* =========================
    GET USER BY ID
 ========================= */
-exports.getUserById = async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user)
-    return res.status(404).json({ success: false, message: "Not found" });
 
-  res.json({ success: true, data: user });
+
+exports.getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // prevent cast error
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user id",
+      });
+    }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: user,
+    });
+
+  } catch (error) {
+    console.error("GET USER BY ID ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
 };
 
 /* =========================
